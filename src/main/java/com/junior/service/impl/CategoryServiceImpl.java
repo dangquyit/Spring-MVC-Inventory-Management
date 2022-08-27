@@ -10,20 +10,18 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.util.ObjectUtils;
 
 import com.junior.dao.CategoryDAO;
 import com.junior.entity.Category;
 import com.junior.model.Paging;
-import com.junior.service.ProductService;
-import com.mysql.cj.util.StringUtils;
+import com.junior.service.CategoryService;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProductServiceImpl implements ProductService {
+public class CategoryServiceImpl implements CategoryService {
 	@Autowired
 	private CategoryDAO<Category> categoryDAO;
-	private final static Logger LOGGER = Logger.getLogger(ProductServiceImpl.class);
+	private final static Logger LOGGER = Logger.getLogger(CategoryServiceImpl.class);
 
 	@Override
 	public List<Category> findAll(Category category, Paging paging) {
@@ -78,11 +76,5 @@ public class ProductServiceImpl implements ProductService {
 		LOGGER.info("Delete category");
 		instante.setActiveFlag(0);
 		categoryDAO.update(instante);
-	}
-
-	@Override
-	public List<Category> findAll() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

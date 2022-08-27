@@ -9,12 +9,12 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.junior.entity.Category;
-import com.junior.service.ProductService;
+import com.junior.service.CategoryService;
 
 @Component
 public class CategoryValidator implements Validator {
 	@Autowired
-	private ProductService productService;
+	private CategoryService categoryService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -29,7 +29,7 @@ public class CategoryValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "name", "msg.required");
 		ValidationUtils.rejectIfEmpty(errors, "description", "msg.required");
 		if (category.getCode() != null) {
-			List<Category> listCategory = productService.findByProperty("code", category.getCode().trim());
+			List<Category> listCategory = categoryService.findByProperty("code", category.getCode().trim());
 			if (!listCategory.isEmpty() && listCategory != null) {
 				if (category.getId() != 0) {
 					if (category.getId() != listCategory.iterator().next().getId()) {

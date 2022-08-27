@@ -5,7 +5,7 @@ import java.util.List;
 import com.junior.entity.Category;
 import com.junior.model.Paging;
 
-public interface ProductService {
+public interface CategoryService {
 	public List<Category> findAll(Category category, Paging paging);
 	
 	public Category findById(int id);
@@ -17,6 +17,4 @@ public interface ProductService {
 	public void update(Category instante) throws Exception;
 
 	public void delete(Category instante) throws Exception;
-
-	List<Category> findAll();
 }
