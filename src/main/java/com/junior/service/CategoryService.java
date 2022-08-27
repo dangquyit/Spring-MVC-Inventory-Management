@@ -12,9 +12,9 @@ public interface CategoryService {
 
 	public List<Category> findByProperty(String property, Object value);
 
-	public void save(Category instante) throws Exception;
+	public void save(Category instance) throws Exception;
 
-	public void update(Category instante) throws Exception;
+	public void update(Category instance) throws Exception;
 
-	public void delete(Category instante) throws Exception;
+	public void delete(Category instance) throws Exception;
 }

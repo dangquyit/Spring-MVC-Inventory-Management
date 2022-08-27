@@ -12,9 +12,9 @@ public interface ProductInfoService {
 
 	public List<ProductInfo> findByProperty(String property, Object value);
 
-	public void save(ProductInfo instante) throws Exception;
+	public void save(ProductInfo instance) throws Exception;
 
-	public void update(ProductInfo instante) throws Exception;
+	public void update(ProductInfo instance) throws Exception;
 
-	public void delete(ProductInfo instante) throws Exception;
+	public void delete(ProductInfo instance) throws Exception;
 }

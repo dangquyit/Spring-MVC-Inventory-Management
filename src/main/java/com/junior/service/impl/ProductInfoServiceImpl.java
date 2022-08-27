@@ -56,26 +56,26 @@ public class ProductInfoServiceImpl implements ProductInfoService{
 	}
 
 	@Override
-	public void save(ProductInfo instante) throws Exception {
+	public void save(ProductInfo instance) throws Exception {
 		LOGGER.info("Save Product Info");
-		instante.setActiveFlag(1);
-		instante.setCreateDate(new Timestamp(new Date().getTime()));
-		instante.setUpdateDate(new Timestamp(new Date().getTime()));
-		instante.setImgUrl("/upload/" + instante.getMultipartFile().getOriginalFilename());
-		productInfoDAO.save(instante);
+		instance.setActiveFlag(1);
+		instance.setCreateDate(new Timestamp(new Date().getTime()));
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		instance.setImgUrl("/upload/" + instance.getMultipartFile().getOriginalFilename());
+		productInfoDAO.save(instance);
 	}
 
 	@Override
-	public void update(ProductInfo instante) throws Exception {
+	public void update(ProductInfo instance) throws Exception {
 		LOGGER.info("Update Product Info");
-		instante.setUpdateDate(new Timestamp(new Date().getTime()));
-		productInfoDAO.update(instante);
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		productInfoDAO.update(instance);
 	}
 
 	@Override
-	public void delete(ProductInfo instante) throws Exception {
+	public void delete(ProductInfo instance) throws Exception {
 		LOGGER.info("Delete Product Info");
-		instante.setActiveFlag(0);
-		productInfoDAO.update(instante);
+		instance.setActiveFlag(0);
+		productInfoDAO.update(instance);
 	}
 }

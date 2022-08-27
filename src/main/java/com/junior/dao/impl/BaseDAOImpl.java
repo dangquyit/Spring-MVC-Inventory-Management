@@ -71,15 +71,15 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
 	}
 
 	@Override
-	public void save(E instante) {
-		LOGGER.info("Save instante");
-		sessionFactory.getCurrentSession().save(instante);
+	public void save(E instance) {
+		LOGGER.info("Save instance");
+		sessionFactory.getCurrentSession().save(instance);
 	}
 
 	@Override
-	public void update(E instante) {
-		LOGGER.info("Update instante");
-		sessionFactory.getCurrentSession().merge(instante);
+	public void update(E instance) {
+		LOGGER.info("Update instance");
+		sessionFactory.getCurrentSession().merge(instance);
 	}
 
 	public String getGenericName() {

@@ -11,10 +11,10 @@ public interface UserService {
 
 	public List<User> findByProperty(String property, Object value);
 
-	public void save(User instante);
+	public void save(User instance);
 
-	public void update(User instante);
+	public void update(User instance);
 
-	public void delete(User instante);
+	public void delete(User instance);
 
 }

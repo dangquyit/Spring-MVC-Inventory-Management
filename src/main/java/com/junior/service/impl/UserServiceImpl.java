@@ -40,19 +40,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public void save(User instante) {
+	public void save(User instance) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void update(User instante) {
+	public void update(User instance) {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void delete(User instante) {
+	public void delete(User instance) {
 		// TODO Auto-generated method stub
 
 	}

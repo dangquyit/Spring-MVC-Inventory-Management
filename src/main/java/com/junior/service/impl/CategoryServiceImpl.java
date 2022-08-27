@@ -56,25 +56,25 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public void save(Category instante) throws Exception {
+	public void save(Category instance) throws Exception {
 		LOGGER.info("Save category");
-		instante.setActiveFlag(1);
-		instante.setCreateDate(new Timestamp(new Date().getTime()));
-		instante.setUpdateDate(new Timestamp(new Date().getTime()));
-		categoryDAO.save(instante);
+		instance.setActiveFlag(1);
+		instance.setCreateDate(new Timestamp(new Date().getTime()));
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		categoryDAO.save(instance);
 	}
 
 	@Override
-	public void update(Category instante) throws Exception {
+	public void update(Category instance) throws Exception {
 		LOGGER.info("Update category");
-		instante.setUpdateDate(new Timestamp(new Date().getTime()));
-		categoryDAO.update(instante);
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		categoryDAO.update(instance);
 	}
 
 	@Override
-	public void delete(Category instante) throws Exception {
+	public void delete(Category instance) throws Exception {
 		LOGGER.info("Delete category");
-		instante.setActiveFlag(0);
-		categoryDAO.update(instante);
+		instance.setActiveFlag(0);
+		categoryDAO.update(instance);
 	}
 }

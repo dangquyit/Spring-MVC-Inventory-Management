@@ -28,7 +28,7 @@ import com.junior.security.FilterSystem;
 @Configuration
 @EnableWebMvc
 @ComponentScan(basePackages = "com.junior")
-@PropertySource("classpath:db.properties")
+@PropertySource(value = {"classpath:db.properties", "classpath:config.properties"})
 @EnableTransactionManagement
 public class AppConfig implements WebMvcConfigurer{
 	@Autowired
@@ -37,6 +37,7 @@ public class AppConfig implements WebMvcConfigurer{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/static/");
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:/"+environment.getProperty("upload.servlet.location"));
 	}
 	 
 	@Override

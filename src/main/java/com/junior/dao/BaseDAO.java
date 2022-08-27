@@ -14,7 +14,7 @@ public interface BaseDAO<E> {
 	
 	public List<E> findByProperty(String property, Object value);
 	
-	public void save(E instante);
+	public void save(E instance);
 	
-	public void update(E instante);
+	public void update(E instance);
 }
