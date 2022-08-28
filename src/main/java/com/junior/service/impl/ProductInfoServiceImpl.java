@@ -1,5 +1,7 @@
 package com.junior.service.impl;
 
+import java.io.File;
+import java.io.IOException;
 import java.sql.Timestamp;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,15 +12,17 @@ import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.junior.dao.ProductInfoDAO;
 import com.junior.entity.ProductInfo;
 import com.junior.model.Paging;
 import com.junior.service.ProductInfoService;
+import com.junior.util.ConfigLoader;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
-public class ProductInfoServiceImpl implements ProductInfoService{
+public class ProductInfoServiceImpl implements ProductInfoService {
 	@Autowired
 	private ProductInfoDAO<ProductInfo> productInfoDAO;
 	private final static Logger LOGGER = Logger.getLogger(ProductInfoServiceImpl.class);
@@ -61,13 +65,19 @@ public class ProductInfoServiceImpl implements ProductInfoService{
 		instance.setActiveFlag(1);
 		instance.setCreateDate(new Timestamp(new Date().getTime()));
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
-		instance.setImgUrl("/upload/" + instance.getMultipartFile().getOriginalFilename());
+		processUploadFile(instance.getMultipartFile());
+		instance.setImgUrl("/upload/" + System.currentTimeMillis() + instance.getMultipartFile().getOriginalFilename());
 		productInfoDAO.save(instance);
 	}
 
 	@Override
 	public void update(ProductInfo instance) throws Exception {
 		LOGGER.info("Update Product Info");
+		processUploadFile(instance.getMultipartFile());
+		if (instance.getMultipartFile() != null) {
+			instance.setImgUrl(
+					"/upload/" + System.currentTimeMillis() + instance.getMultipartFile().getOriginalFilename());
+		}
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
 		productInfoDAO.update(instance);
 	}
@@ -77,5 +87,17 @@ public class ProductInfoServiceImpl implements ProductInfoService{
 		LOGGER.info("Delete Product Info");
 		instance.setActiveFlag(0);
 		productInfoDAO.update(instance);
+	}
+
+	private void processUploadFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
+		if (multipartFile != null) {
+			File dir = new File(ConfigLoader.getInstance().getValue("upload.location"));
+			if (!dir.exists()) {
+				dir.mkdir();
+			}
+			String fileName = System.currentTimeMillis() + "" + multipartFile.getOriginalFilename();
+			File file = new File(ConfigLoader.getInstance().getValue("upload.location"), fileName);
+			multipartFile.transferTo(file); // coppy file client to server
+		}
 	}
 }

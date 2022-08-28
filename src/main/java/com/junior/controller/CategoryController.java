@@ -77,7 +77,7 @@ public class CategoryController {
 
 	@GetMapping("/category/add")
 	public String addCategory(Model model) {
-		model.addAttribute("categoryForm", new Category());
+		model.addAttribute("modelForm", new Category());
 		model.addAttribute("titlePage", "Add Category");
 		model.addAttribute("viewOnly", false);
 		return "category-action";
@@ -88,7 +88,7 @@ public class CategoryController {
 		Category category = categoryService.findById(id);
 		if (category != null) {
 			model.addAttribute("titlePage", "Edit Category");
-			model.addAttribute("categoryForm", category);
+			model.addAttribute("modelForm", category);
 			model.addAttribute("viewOnly", false);
 			return "category-action";
 		}
@@ -100,7 +100,7 @@ public class CategoryController {
 		Category category = categoryService.findById(id);
 		if (category != null) {
 			model.addAttribute("titlePage", "View Category");
-			model.addAttribute("categoryForm", category);
+			model.addAttribute("modelForm", category);
 			model.addAttribute("viewOnly", true);
 			return "category-action";
 		}
@@ -108,7 +108,7 @@ public class CategoryController {
 	}
 
 	@PostMapping("/category/save")
-	public String saveCategory(Model model, @ModelAttribute("categoryForm") @Validated Category category,
+	public String saveCategory(Model model, @ModelAttribute("modelForm") @Validated Category category,
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
 			if (category.getId() != 0) {
@@ -116,7 +116,7 @@ public class CategoryController {
 			} else {
 				model.addAttribute("titlePage", "Add Category");
 			}
-			model.addAttribute("categoryForm", category);
+			model.addAttribute("modelForm", category);
 			model.addAttribute("viewOnly", false);
 			return "category-action";
 		}
