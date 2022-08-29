@@ -26,19 +26,21 @@ public class CategoryServiceImpl implements CategoryService {
 	@Override
 	public List<Category> findAll(Category category, Paging paging) {
 		LOGGER.info("Find all category");
-		StringBuilder queryStr = new StringBuilder();
+		StringBuilder queryStr = new StringBuilder("");
 		Map<String, Object> mapParams = new HashMap<>();
-		if (category.getId() != 0) {
-			queryStr.append(" and model.id =:id");
-			mapParams.put("id", category.getId());
-		}
-		if (category.getCode() != null && !category.getCode().isEmpty()) {
-			queryStr.append(" and model.code =:code");
-			mapParams.put("code", category.getCode());
-		}
-		if (category.getName() != null && !category.getName().isEmpty()) {
-			queryStr.append(" and model.name LIKE :name");
-			mapParams.put("name", "%"+category.getName()+"%");
+		if (category != null) {
+			if (category.getId() != 0) {
+				queryStr.append(" and model.id =:id");
+				mapParams.put("id", category.getId());
+			}
+			if (category.getCode() != null && !category.getCode().isEmpty()) {
+				queryStr.append(" and model.code =:code");
+				mapParams.put("code", category.getCode());
+			}
+			if (category.getName() != null && !category.getName().isEmpty()) {
+				queryStr.append(" and model.name LIKE :name");
+				mapParams.put("name", "%" + category.getName() + "%");
+			}
 		}
 		return categoryDAO.findAll(queryStr.toString(), mapParams, paging);
 	}

@@ -72,6 +72,9 @@ public class ProductInfo implements Serializable {
 	@Transient
 	private MultipartFile multipartFile;
 
+	@Transient
+	private int cateId;
+	
 	public ProductInfo() {
 	}
 
@@ -220,4 +223,13 @@ public class ProductInfo implements Serializable {
 	public void setMultipartFile(MultipartFile multipartFile) {
 		this.multipartFile = multipartFile;
 	}
+
+	public int getCateId() {
+		return cateId;
+	}
+
+	public void setCateId(int cateId) {
+		this.cateId = cateId;
+	}
+	
 }

@@ -13,6 +13,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
@@ -42,7 +43,7 @@ public class AppConfig implements WebMvcConfigurer{
 	 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
-		registry.addInterceptor(new FilterSystem()).addPathPatterns("/**").excludePathPatterns("/login", "/process-login", "/resources/**");
+		registry.addInterceptor(new FilterSystem()).addPathPatterns("/**").excludePathPatterns("/login", "/process-login", "/resources/**", "/upload/**");
 	}
 	
 	@Bean
@@ -108,5 +109,12 @@ public class AppConfig implements WebMvcConfigurer{
 		ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
 		messageSource.setBasename("classpath:message");
 		return messageSource;
+	}
+	
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
+		multipartResolver.setMaxUploadSize(268435456);
+		return multipartResolver;
 	}
 }

@@ -3,25 +3,39 @@
 
 <tiles-definitions>
 
-    <!-- Default Main Template -->
-    <definition name="master" template="/WEB-INF/views/layout/master-layout.jsp">
-        <put-attribute name="sidebar" value="/WEB-INF/views/layout/sidebar.jsp"/>
-        <put-attribute name="top-nav" value="/WEB-INF/views/layout/top-nav.jsp"/>
-        <put-attribute name="body" value="/WEB-INF/views/layout/body.jsp"/>
-        <put-attribute name="footer" value="/WEB-INF/views/layout/footer.jsp"/>
-    </definition>
- 
-    <definition name="index" extends="master">
-        <put-attribute name="body" value="/WEB-INF/views/index.jsp" />
-    </definition>
-    
-    <definition name="access-denied" template="/WEB-INF/views/error-page/access-denied.jsp"></definition>
-    
-   <definition name="category-action" extends="master">
-        <put-attribute name="body" value="/WEB-INF/views/category/category-action.jsp" />
-    </definition>
-    
-     <definition name="category-list" extends="master">
-        <put-attribute name="body" value="/WEB-INF/views/category/category-list.jsp" />
-    </definition>
+	<!-- Default Main Template -->
+	<definition name="master"
+		template="/WEB-INF/views/layout/master-layout.jsp">
+		<put-attribute name="sidebar"
+			value="/WEB-INF/views/layout/sidebar.jsp" />
+		<put-attribute name="top-nav"
+			value="/WEB-INF/views/layout/top-nav.jsp" />
+		<put-attribute name="body"
+			value="/WEB-INF/views/layout/body.jsp" />
+		<put-attribute name="footer"
+			value="/WEB-INF/views/layout/footer.jsp" />
+	</definition>
+
+	<definition name="index" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/index.jsp" />
+	</definition>
+
+	<definition name="access-denied"
+		template="/WEB-INF/views/error-page/access-denied.jsp"></definition>
+
+	<definition name="category-action" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/category/category-action.jsp" />
+	</definition>
+
+	<definition name="category-list" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/category/category-list.jsp" />
+	</definition>
+
+	<definition name="productInfo-action" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product-info/productInfo-action.jsp" />
+	</definition>
 </tiles-definitions>

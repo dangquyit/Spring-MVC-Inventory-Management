@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -11,6 +12,7 @@ import org.springframework.validation.Validator;
 import com.junior.entity.ProductInfo;
 import com.junior.service.ProductInfoService;
 
+@Component
 public class ProductInfoValidator implements Validator {
 	@Autowired
 	private ProductInfoService productInfoService;
@@ -44,7 +46,7 @@ public class ProductInfoValidator implements Validator {
 		if (productInfo.getMultipartFile() != null) {
 			String extension = FilenameUtils.getExtension(productInfo.getMultipartFile().getOriginalFilename());
 			System.out.println("Extension: " + extension);
-			if(!extension.equals("jpg") || !extension.equals("png")) {
+			if (!extension.equals("jpg") || !extension.equals("png")) {
 				errors.rejectValue("multipartFile", "msg.file.extension.error");
 			}
 		}

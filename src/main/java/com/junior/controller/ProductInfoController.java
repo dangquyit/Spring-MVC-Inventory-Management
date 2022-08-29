@@ -11,6 +11,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -30,6 +31,7 @@ import com.junior.service.ProductInfoService;
 import com.junior.util.Constant;
 import com.junior.validate.ProductInfoValidator;
 
+@Controller
 public class ProductInfoController {
 	@Autowired
 	private ProductInfoService productInfoService;
@@ -81,14 +83,17 @@ public class ProductInfoController {
 
 	@GetMapping("/product-info/add")
 	public String addProductInfo(Model model) {
+		LOGGER.info("Product Info controller add");
 		model.addAttribute("modelForm", new ProductInfo());
 		model.addAttribute("titlePage", "Add product info");
 		model.addAttribute("viewOnly", false);
 
 		List<Category> listCategory = categoryService.findAll(null, null);
 		Map<String, String> mapCategory = new HashMap<>();
-		for (Category category : listCategory) {
-			mapCategory.put(String.valueOf(category.getId()), category.getName());
+		if(!listCategory.isEmpty()) {
+			for (Category category : listCategory) {
+				mapCategory.put(String.valueOf(category.getId()), category.getName());
+			}
 		}
 		model.addAttribute("mapCategory", mapCategory);
 
