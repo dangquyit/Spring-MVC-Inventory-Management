@@ -58,7 +58,7 @@
 								<th class="column-title">Id</th>
 								<th class="column-title">Code</th>
 								<th class="column-title">Name</th>
-								<th class="column-title">Description</th>
+								<th class="column-title">Image</th>
 								<th class="column-title no-link last text-center" colspan="3"><span
 									class="nobr">Action</span></th>
 							</tr>
@@ -80,7 +80,8 @@
 								<td class=" ">${productInfo.id }</td>
 								<td class=" ">${productInfo.code }</td>
 								<td class=" ">${productInfo.name }</td>
-								<td class=" ">${productInfo.description }</td>
+								<c:url value="${productInfo.imgUrl }" var="imgUrl"/>
+								<td class=" "> <img src="${imgUrl }" alt="Error Image" width="100px" height="100px"/></td>
 								<td><a
 									href="<c:url value ="/product-info/view/${productInfo.id}"/>"
 									class="btn btn-round btn-secondary">View</a></td>

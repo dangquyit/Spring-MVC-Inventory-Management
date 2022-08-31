@@ -39,7 +39,7 @@ public class AppConfig implements WebMvcConfigurer{
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/resources/**").addResourceLocations("/static/");
-		registry.addResourceHandler("/upload/**").addResourceLocations("file:/"+environment.getProperty("upload.servlet.location"));
+		registry.addResourceHandler("/upload/**").addResourceLocations("file:\\"+environment.getProperty("upload.servlet.location"));
 	}
 	 
 	@Override
