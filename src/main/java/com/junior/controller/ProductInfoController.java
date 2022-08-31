@@ -104,6 +104,7 @@ public class ProductInfoController {
 	public String editProductInfo(@PathVariable(name = "id", required = true) int id, Model model) {
 		ProductInfo productInfo = productInfoService.findById(id);
 		if (productInfo != null) {
+			productInfo.setCateId(productInfo.getCategory().getId());
 			model.addAttribute("titlePage", "Edit Product Info");
 			model.addAttribute("modelForm", productInfo);
 			model.addAttribute("viewOnly", false);
@@ -149,6 +150,9 @@ public class ProductInfoController {
 			model.addAttribute("mapCategory", mapCategory);
 			return "productInfo-action";
 		}
+		Category category = new Category();
+		category.setId(productInfo.getCateId());
+		productInfo.setCategory(category);
 		if (productInfo.getId() != 0) {
 			LOGGER.info("Update product info");
 			try {

@@ -38,4 +38,9 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/product-info/productInfo-action.jsp" />
 	</definition>
+	
+	<definition name="productInfo-list" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/product-info/productInfo-list.jsp" />
+	</definition>
 </tiles-definitions>

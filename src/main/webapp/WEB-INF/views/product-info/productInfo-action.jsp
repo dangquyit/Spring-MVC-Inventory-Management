@@ -22,18 +22,29 @@
 							enctype="multipart/form-data">
 							<form:hidden path="id" />
 							<form:hidden path="createDate" />
+							<form:hidden path="imgUrl" />
 							<form:hidden path="activeFlag" />
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12"
 									for="cateId">Category <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:select path="cateId" cssClass="form-control col-md-7 col-xs-12">
-										<form:options items="${mapCategory }" />
-									</form:select>
-									<div class="has-error">
-										<form:errors path="cateId" cssClass="help-block"></form:errors>
-									</div>
+									<c:choose>
+										<c:when test="${!viewOnly }">
+											<form:select path="cateId"
+												cssClass="form-control col-md-7 col-xs-12">
+												<form:options items="${mapCategory }" />
+											</form:select>
+											<div class="has-error">
+												<form:errors path="cateId" cssClass="help-block"></form:errors>
+											</div>
+										</c:when>
+
+										<c:otherwise>
+											<form:input path="category.name"
+												cssClass="form-control col-md-7 col-xs-12" disabled="true" />
+										</c:otherwise>
+									</c:choose>
 								</div>
 								<div class="clearfix"></div>
 							</div>
@@ -79,7 +90,7 @@
 								</div>
 								<div class="clearfix"></div>
 							</div>
-							<c:if test="${viewOnly }">
+							<c:if test="${!viewOnly }">
 								<div class="form-group">
 									<label for="multipartFile"
 										class="control-label col-md-3 col-sm-3 col-xs-12">Image
@@ -115,14 +126,14 @@
 </div>
 <script type="text/javascript">
 	/* $(document).ready(
-			function() {
-				$('#categorylistId').addClass('current-page').siblings()
-						.removeClass('current-page');
-				var parent = $('#categorylistId').parents('li');
-				parent.addClass('active').siblings().removeClass('active');
-				$('#categorylistId').parents().show();
-			});
+		function() {
+			$('#categorylistId').addClass('current-page').siblings()
+					.removeClass('current-page');
+			var parent = $('#categorylistId').parents('li');
+			parent.addClass('active').siblings().removeClass('active');
+			$('#categorylistId').parents().show();
+		}); */
 	function cancel() {
-		window.location.href = '<c:url value="/category/list"/>'
-	} */
+		window.location.href = '<c:url value="/product-info/list"/>'
+	}
 </script>

@@ -66,7 +66,7 @@ public class ProductInfo implements Serializable {
 	private List<ProductInStock> productInStocks;
 
 	//bi-directional many-to-one association to Category
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	private Category category;
 	
 	@Transient

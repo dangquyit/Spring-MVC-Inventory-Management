@@ -62,23 +62,25 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 	@Override
 	public void save(ProductInfo instance) throws Exception {
 		LOGGER.info("Save Product Info");
+		long currentTimeMillis = System.currentTimeMillis();
 		instance.setActiveFlag(1);
 		instance.setCreateDate(new Timestamp(new Date().getTime()));
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
-		processUploadFile(instance.getMultipartFile());
-		instance.setImgUrl("/upload/" + System.currentTimeMillis() + instance.getMultipartFile().getOriginalFilename());
+		instance.setImgUrl("/upload/" + currentTimeMillis + "_" + instance.getMultipartFile().getOriginalFilename());
+		processUploadFile(instance.getMultipartFile(), currentTimeMillis);
 		productInfoDAO.save(instance);
 	}
 
 	@Override
 	public void update(ProductInfo instance) throws Exception {
 		LOGGER.info("Update Product Info");
-		processUploadFile(instance.getMultipartFile());
-		if (instance.getMultipartFile() != null) {
-			instance.setImgUrl(
-					"/upload/" + System.currentTimeMillis() + instance.getMultipartFile().getOriginalFilename());
-		}
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		if (!instance.getMultipartFile().getOriginalFilename().isEmpty()) {
+			long currentTimeMillis = System.currentTimeMillis();
+			instance.setImgUrl(
+					"/upload/" + currentTimeMillis + "_" + instance.getMultipartFile().getOriginalFilename());
+			processUploadFile(instance.getMultipartFile(), currentTimeMillis);
+		}
 		productInfoDAO.update(instance);
 	}
 
@@ -89,13 +91,14 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 		productInfoDAO.update(instance);
 	}
 
-	private void processUploadFile(MultipartFile multipartFile) throws IllegalStateException, IOException {
-		if (multipartFile != null) {
+	private void processUploadFile(MultipartFile multipartFile, long currentTimeMillis) throws IllegalStateException, IOException {
+		if (!multipartFile.getOriginalFilename().isEmpty()) {
 			File dir = new File(ConfigLoader.getInstance().getValue("upload.location"));
 			if (!dir.exists()) {
 				dir.mkdir();
 			}
-			String fileName = System.currentTimeMillis() + "" + multipartFile.getOriginalFilename();
+			String fileName = currentTimeMillis + "_" + multipartFile.getOriginalFilename();
+			System.out.println("File name in server: " + fileName);
 			File file = new File(ConfigLoader.getInstance().getValue("upload.location"), fileName);
 			multipartFile.transferTo(file); // coppy file client to server
 		}
