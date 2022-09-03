@@ -38,7 +38,7 @@ public class History implements Serializable {
 	private Timestamp updateDate;
 
 	//bi-directional many-to-one association to ProductInfo
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	private ProductInfo productInfo;
 

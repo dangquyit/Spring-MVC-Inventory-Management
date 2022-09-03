@@ -49,4 +49,9 @@
 			value="/WEB-INF/views/product-in-stock/productInStock-list.jsp" />
 	</definition>
 	
+	<definition name="history" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/history/history.jsp" />
+	</definition>
+	
 </tiles-definitions>
