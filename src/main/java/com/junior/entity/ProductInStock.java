@@ -1,8 +1,19 @@
 package com.junior.entity;
 
 import java.io.Serializable;
-import javax.persistence.*;
+import java.math.BigDecimal;
 import java.sql.Timestamp;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.NamedQuery;
+import javax.persistence.Table;
 
 
 /**
@@ -24,14 +35,17 @@ public class ProductInStock implements Serializable {
 
 	@Column(name="create_date")
 	private Timestamp createDate;
-
+	
+	@Column(name = "price")
+	private BigDecimal price;
+	
 	private int quantity;
 
 	@Column(name="update_date")
 	private Timestamp updateDate;
 
 	//bi-directional many-to-one association to ProductInfo
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="product_id")
 	private ProductInfo productInfo;
 
@@ -86,4 +100,11 @@ public class ProductInStock implements Serializable {
 		this.productInfo = productInfo;
 	}
 
+	public BigDecimal getPrice() {
+		return price;
+	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
 }

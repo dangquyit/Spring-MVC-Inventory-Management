@@ -13,9 +13,13 @@
 		<div class="row">
 			<div class="col-md-12 col-sm-12 col-xs-12">
 				<div class="x_panel">
-
 					<div class="x_content">
-						<br />
+						<c:if test="${modelForm.imgUrl != null}">
+							<c:url value="${modelForm.imgUrl }" var="imgUrl" />
+							<img alt="Error Image" src="${imgUrl }"
+								style="max-width: 20%; height: auto;" />
+						</c:if>
+						<br /> <br />
 						<form:form modelAttribute="modelForm"
 							cssClass="form-horizontal form-label-left"
 							servletRelativeAction="/product-info/save" method="POST"
@@ -79,7 +83,9 @@
 							</div>
 							<div class="form-group">
 								<label for="description"
-									class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+									class="control-label col-md-3 col-sm-3 col-xs-12">Description
+									<span class="required">*</span>
+								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:textarea path="description"
 										cssClass="form-control col-md-7 col-xs-12"
@@ -92,12 +98,13 @@
 							</div>
 							<c:if test="${!viewOnly }">
 								<div class="form-group">
-									<label for="multipartFile"
-										class="control-label col-md-3 col-sm-3 col-xs-12">Image
-										Upload</label>
+									<label for="multipartFile" class="control-label col-md-3">Image
+										Upload <span class="required">*</span>
+									</label>
 									<div class="col-md-6 col-sm-6 col-xs-12">
 										<form:input path="multipartFile"
-											cssClass="form-control col-md-7 col-xs-12" type="file" />
+											cssClass="form-control col-md-7 col-xs-12" type="file"
+											style="" />
 										<div class="has-error">
 											<form:errors path="multipartFile" cssClass="help-block"></form:errors>
 										</div>
@@ -125,14 +132,14 @@
 	</div>
 </div>
 <script type="text/javascript">
-	/* $(document).ready(
-		function() {
-			$('#categorylistId').addClass('current-page').siblings()
-					.removeClass('current-page');
-			var parent = $('#categorylistId').parents('li');
-			parent.addClass('active').siblings().removeClass('active');
-			$('#categorylistId').parents().show();
-		}); */
+	$(document).ready(
+			function() {
+				$('#product-infolistId').addClass('current-page').siblings()
+						.removeClass('current-page');
+				var parent = $('#product-infolistId').parents('li');
+				parent.addClass('active').siblings().removeClass('active');
+				$('#product-infolistId').parents().show();
+			});
 	function cancel() {
 		window.location.href = '<c:url value="/product-info/list"/>'
 	}

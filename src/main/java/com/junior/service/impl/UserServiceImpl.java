@@ -1,7 +1,5 @@
 package com.junior.service.impl;
 
-import java.io.Serializable;
-
 import java.util.List;
 
 import org.apache.log4j.Logger;

@@ -39,7 +39,7 @@
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
 								for="name">Name </label>
 							<div class="col-md-6 col-sm-6 ">
-								<form:input type="text" path="name" cssClass="form-control" />
+								<form:input type="text" path="name" cssClass="form-control " />
 							</div>
 						</div>
 						<div class="ln_solid"></div>
@@ -76,7 +76,7 @@
 									</c:otherwise>
 								</c:choose>
 
-								<td class=" ">${pageInfo.offset + loop.index + 1 }</td>
+								<td class=" " >${pageInfo.offset + loop.index + 1 }</td>
 								<td class=" ">${productInfo.id }</td>
 								<td class=" ">${productInfo.code }</td>
 								<td class=" ">${productInfo.name }</td>

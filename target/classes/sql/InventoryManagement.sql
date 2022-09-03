@@ -74,6 +74,7 @@ CREATE TABLE inventory_management.product_in_stock(
 	`id` INT(11) NOT NULL AUTO_INCREMENT,
     `product_id` INT(11) NOT NULL,
     `quantity` INT(11) NOT NULL,
+    `price` DECIMAL(15, 2) NOT NULL,
     `active_flag` INT(1) NOT NULL DEFAULT 1,
     `create_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
     `update_date` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,

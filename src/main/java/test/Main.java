@@ -1,11 +1,13 @@
 package test;
 
-import com.junior.util.ConfigLoader;
+import java.math.BigDecimal;
 
 public class Main {
 	
 	public static void main(String[] args) {
-		System.out.println(ConfigLoader.getInstance());
-		System.out.println(ConfigLoader.getInstance().getValue("upload.location"));
+		int a= 3;
+		double b = 3.5;
+		BigDecimal bigDecimal = new BigDecimal(b);
+		System.out.println(bigDecimal);
 	}
 }
