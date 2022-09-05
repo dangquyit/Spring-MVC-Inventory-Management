@@ -40,14 +40,13 @@ public class Menu implements Serializable {
 	// bi-directional many-to-one association to Auth
 	@OneToMany(mappedBy = "menu")
 	private List<Auth> auths;
-	
-	
-	@Transient // Annotation disable 
+
+	@Transient // Annotation disable
 	private List<Menu> child;
-	
+
 	@Transient
 	private String idMenu;
-	
+
 	public int getId() {
 		return this.id;
 	}
@@ -149,6 +148,5 @@ public class Menu implements Serializable {
 	public void setIdMenu(String idMenu) {
 		this.idMenu = idMenu;
 	}
-	
-	
+
 }

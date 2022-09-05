@@ -87,6 +87,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 	@Override
 	public void saveHistory(Invoice invoice, String action) {
+		LOGGER.info("save history from invoice");
 		History history = new History();
 		history.setCreateDate(new Timestamp(new Date().getTime()));
 		history.setUpdateDate(new Timestamp(new Date().getTime()));
