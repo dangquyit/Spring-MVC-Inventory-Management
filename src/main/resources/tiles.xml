@@ -38,20 +38,29 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/product-info/productInfo-action.jsp" />
 	</definition>
-	
+
 	<definition name="productInfo-list" extends="master">
 		<put-attribute name="body"
 			value="/WEB-INF/views/product-info/productInfo-list.jsp" />
 	</definition>
-	
+
 	<definition name="productInStock-list" extends="master">
 		<put-attribute name="body"
 			value="/WEB-INF/views/product-in-stock/productInStock-list.jsp" />
 	</definition>
-	
+
 	<definition name="history" extends="master">
 		<put-attribute name="body"
 			value="/WEB-INF/views/history/history.jsp" />
 	</definition>
-	
+
+	<definition name="goods-receipt-list" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/invoice/goods-receipt-list.jsp" />
+	</definition>
+
+	<definition name="goods-receipt-action" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/invoice/goods-receipt-action.jsp" />
+	</definition>
 </tiles-definitions>

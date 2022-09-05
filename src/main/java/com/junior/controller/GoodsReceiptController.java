@@ -2,7 +2,9 @@ package com.junior.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
@@ -21,48 +23,53 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.junior.entity.Category;
+import com.junior.entity.Invoice;
+import com.junior.entity.ProductInfo;
 import com.junior.model.Paging;
-import com.junior.service.CategoryService;
+import com.junior.service.InvoiceService;
+import com.junior.service.ProductInfoService;
 import com.junior.util.Constant;
-import com.junior.validate.CategoryValidator;
+import com.junior.validate.InvoiceValidator;
 
 @Controller
-public class CategoryController {
+public class GoodsReceiptController {
 	@Autowired
-	private CategoryService categoryService;
+	private InvoiceService invoiceService;
+	
+	@Autowired
+	private ProductInfoService productInfoService;
 
 	@Autowired
-	private CategoryValidator categoryValidator;
+	private InvoiceValidator invoiceValidator;
 
-	private static final Logger LOGGER = Logger.getLogger(CategoryController.class);
+	private static final Logger LOGGER = Logger.getLogger(GoodsReceiptController.class);
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
-		System.out.println("Init Binder in Category");
 		if (dataBinder.getTarget() == null) {
 			return;
 		}
 		// Custom lai date va chap nhan gia tri null cua timestamp
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dataBinder.registerCustomEditor(Timestamp.class, new CustomDateEditor(sdf, true));
-		if (dataBinder.getTarget().getClass() == Category.class) {
-			dataBinder.setValidator(categoryValidator);
+		if (dataBinder.getTarget().getClass() == Invoice.class) {
+			dataBinder.setValidator(invoiceValidator);
 		}
 	}
 
-	@RequestMapping(value = { "/category/list", "/category/list/" })
+	@RequestMapping(value = { "/goods-receipt/list", "/category/list/" })
 	public String redirect() {
-		return "redirect:/category/list/1";
+		return "redirect:/goods-receipt/list/1";
 	}
 
-	@RequestMapping("/category/list/{page}")
-	public String showCategoryList(Model model, HttpSession session, @ModelAttribute("searchForm") Category category,
+	@RequestMapping("/goods-receipt/list/{page}")
+	public String showInvoiceList(Model model, HttpSession session, @ModelAttribute("searchForm") Invoice invoice,
 			@PathVariable(name = "page") int page) {
 		Paging paging = new Paging(3);
 		model.addAttribute("pageInfo", paging);
 		paging.setIndexPage(page);
-		List<Category> listCategory = categoryService.findAll(category, paging);
+		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+		List<Invoice> listInvoice = invoiceService.findAll(invoice, paging);
 		if (session.getAttribute(Constant.MSG_SUCCESS) != null) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
 			session.removeAttribute(Constant.MSG_SUCCESS);
@@ -71,59 +78,63 @@ public class CategoryController {
 			model.addAttribute(Constant.MSG_ERROR, session.getAttribute(Constant.MSG_ERROR));
 			session.removeAttribute(Constant.MSG_ERROR);
 		}
-		model.addAttribute("listCategory", listCategory);
-		return "category-list";
+		model.addAttribute("listInvoice", listInvoice);
+		return "goods-receipt-list";
 	}
 
-	@GetMapping("/category/add")
-	public String addCategory(Model model) {
-		model.addAttribute("modelForm", new Category());
-		model.addAttribute("titlePage", "Add Category");
+	@GetMapping("/goods-receipt/add")
+	public String addInvoice(Model model) {
+		model.addAttribute("modelForm", new Invoice());
+		model.addAttribute("titlePage", "Add Invoice");
 		model.addAttribute("viewOnly", false);
-		return "category-action";
+		model.addAttribute("mapProduct", initMapProduct());
+		return "goods-receipt-action";
 	}
 
-	@GetMapping("/category/edit/{id}")
-	public String editCategory(@PathVariable(name = "id", required = true) int id, Model model) {
-		Category category = categoryService.findById(id);
-		if (category != null) {
+	@GetMapping("/goods-receipt/edit/{id}")
+	public String editInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
+		Invoice invoice = invoiceService.findById(id);
+		if (invoice != null) {
 			model.addAttribute("titlePage", "Edit Category");
-			model.addAttribute("modelForm", category);
+			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
-			return "category-action";
+			model.addAttribute("mapProduct", initMapProduct());
+			return "goods-receipt-action";
 		}
-		return "redirect:/category/list";
+		return "redirect:/goods-receipt/list";
 	}
 
-	@GetMapping("/category/view/{id}")
-	public String viewCategory(@PathVariable(name = "id", required = true) int id, Model model) {
-		Category category = categoryService.findById(id);
-		if (category != null) {
+	@GetMapping("/goods-receipt/view/{id}")
+	public String viewInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
+		Invoice invoice = invoiceService.findById(id);
+		if (invoice != null) {
 			model.addAttribute("titlePage", "View Category");
-			model.addAttribute("modelForm", category);
+			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
-			return "category-action";
+			model.addAttribute("mapProduct", initMapProduct());
+			return "goods-receipt-action";
 		}
-		return "redirect:/category/list";
+		return "redirect:/goods-receipt/list";
 	}
 
-	@PostMapping("/category/save")
-	public String saveCategory(Model model, @ModelAttribute("modelForm") @Validated Category category,
+	@PostMapping("/goods-receipt/save")
+	public String saveInvoice(Model model, @ModelAttribute("modelForm") @Validated Invoice invoice,
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
-			if (category.getId() != 0) {
+			if (invoice.getId() != 0) {
 				model.addAttribute("titlePage", "Edit Category");
 			} else {
 				model.addAttribute("titlePage", "Add Category");
 			}
-			model.addAttribute("modelForm", category);
+			model.addAttribute("modelForm", invoice);
+			model.addAttribute("mapProduct", initMapProduct());
 			model.addAttribute("viewOnly", false);
-			return "category-action";
+			return "goods-receipt-action";
 		}
-		if (category.getId() != 0) {
-			LOGGER.info("Update category");
+		if (invoice.getId() != 0) {
+			LOGGER.info("Update invoice");
 			try {
-				categoryService.update(category);
+				invoiceService.update(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Update success !!!");
 
 			} catch (Exception e) {
@@ -132,31 +143,24 @@ public class CategoryController {
 			}
 //			model.addAttribute("message", "Update success !!!");
 		} else {
-			LOGGER.info("Save category");
+			LOGGER.info("Save invoice");
 			try {
-				categoryService.save(category);
+				invoiceService.save(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success !!!");
 			} catch (Exception e) {
 				session.setAttribute(Constant.MSG_ERROR, "Insert has error !!!");
 				e.printStackTrace();
 			}
 		}
-		return "redirect:/category/list";
+		return "redirect:/goods-receipt/list";
 	}
-
-	@GetMapping("/category/delete/{id}")
-	public String deleteCategory(@PathVariable(name = "id", required = true) int id, HttpSession session) {
-		Category category = categoryService.findById(id);
-		LOGGER.info("Delete category");
-		if (category != null) {
-			try {
-				categoryService.delete(category);
-				session.setAttribute(Constant.MSG_SUCCESS, "Delete success !!!");
-			} catch (Exception e) {
-				session.setAttribute(Constant.MSG_ERROR, "Delete has error !!!");
-				e.printStackTrace();
-			}
+	
+	private Map<String, String> initMapProduct() {
+		List<ProductInfo> listProductInfo = productInfoService.findAll(null, null);
+		Map<String, String> mapProduct = new HashMap<>();
+		for(ProductInfo productInfo : listProductInfo) {
+			mapProduct.put(String.valueOf(productInfo.getId()), productInfo.getName());
 		}
-		return "redirect:/category/list";
+		return mapProduct;
 	}
 }
