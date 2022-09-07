@@ -85,6 +85,7 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 		LOGGER.info("Save or Update product in stock");
 		if(invoice.getProductInfo() != null) {
 			List<ProductInStock> listProductInStock = productInStockDAO.findByProperty("productInfo.id", invoice.getProductInfo().getId());
+			LOGGER.info("Id product info: "+ invoice.getProductInfo().getId());
 			ProductInStock productInStock = null;
 			if(!listProductInStock.isEmpty() && listProductInStock != null) {
 				productInStock = new ProductInStock();
@@ -103,6 +104,7 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 				productInStock = new ProductInStock();
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
 				productInStock.setCreateDate(new Timestamp(new Date().getTime()));
+				productInStock.setProductInfo(invoice.getProductInfo());
 				productInStock.setId(invoice.getProductInfo().getId());
 				productInStock.setActiveFlag(1);
 				productInStock.setQuantity(invoice.getQuantity());
