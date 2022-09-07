@@ -42,7 +42,7 @@ public class InvoiceValidator implements Validator {
 			errors.rejectValue("quantity", "msg.wrong.format");
 		}
 		
-		if (invoice.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
+		if (invoice.getPrice() == null || invoice.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			errors.rejectValue("price", "msg.wrong.format");
 		}
 

@@ -25,14 +25,12 @@ public class HistoryController {
 	@Autowired
 	private HistoryService historyService;
 	
-//	@GetMapping(value = {"/history/list/", "/history/list"})
-	@GetMapping(value = {"/history", "/history/"})
+	@GetMapping(value = {"/history/list", "/history/list/"})
 	public String redirect() {
-		return "redirect:/history/1";
+		return "redirect:/history/list/1";
 	}
 	
-//	@RequestMapping("/history/list/{page}")
-	@RequestMapping("/history/{page}")
+	@RequestMapping("/history/list/{page}")
 	public String history(Model model, @ModelAttribute("searchForm") History history, @PathVariable("page") int page) {
 		LOGGER.info("Show history list");
 		Paging paging = new Paging(5);

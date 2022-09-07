@@ -49,7 +49,7 @@ public class HistoryServiceImpl implements HistoryService {
 
 			if (history.getType() != 0) {
 				queryStr.append(" AND model.type = :type");
-				mapParams.put("type", String.valueOf(history.getType()));
+				mapParams.put("type", history.getType());
 			}
 		}
 		return historyDAO.findAll(queryStr.toString(), mapParams, paging);

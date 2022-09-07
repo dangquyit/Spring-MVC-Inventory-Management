@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.junior.dao.InvoiceDAO;
 import com.junior.entity.Invoice;
+import com.junior.entity.ProductInfo;
 import com.junior.model.Paging;
 import com.junior.service.HistoryService;
 import com.junior.service.InvoiceService;
@@ -37,11 +38,11 @@ public class InvoiceServiceImpl implements InvoiceService {
 		Map<String, Object> mapParams = new HashMap<>();
 		if(invoice != null) {
 			if(invoice.getType() != 0) {
-				queryStr.append(" AND model.type := type");
+				queryStr.append(" AND model.type =: type");
 				mapParams.put("type", invoice.getType());
 			}
-			if(!invoice.getCode().isEmpty()) {
-				queryStr.append(" AND model.code := code");
+			if(invoice.getCode() != null) {
+				queryStr.append(" AND model.code =: code");
 				mapParams.put("code", invoice.getCode());
 			}
 			if(invoice.getFromDate() != null) {
@@ -58,8 +59,7 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	@Override
 	public Invoice findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return invoiceDAO.findById(Invoice.class, id);
 	}
 
 	@Override
@@ -71,12 +71,15 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public void save(Invoice instance) throws Exception {
 		LOGGER.info("Save invoice from model to db");
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.setId(instance.getProductId());
+		instance.setProductInfo(productInfo);
 		instance.setActiveFlag(1);
 		instance.setCreateDate(new Timestamp(new Date().getTime()));
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
 		invoiceDAO.save(instance);
-		productInStockService.saveOrUpdate(instance);
 		historyService.saveHistory(instance, Constant.ACTION_ADD);
+		productInStockService.saveOrUpdate(instance);
 	}
 
 	@Override

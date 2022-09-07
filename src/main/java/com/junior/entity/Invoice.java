@@ -46,6 +46,9 @@ public class Invoice implements Serializable {
 
 	@Transient
 	private Date toDate;
+	
+	@Transient
+	private int productId;
 
 	public Invoice() {
 	}
@@ -137,6 +140,15 @@ public class Invoice implements Serializable {
 	public void setToDate(Date toDate) {
 		this.toDate = toDate;
 	}
+
+	public int getProductId() {
+		return productId;
+	}
+
+	public void setProductId(int productId) {
+		this.productId = productId;
+	}
+	
 	
 	
 

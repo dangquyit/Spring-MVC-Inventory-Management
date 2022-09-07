@@ -14,7 +14,7 @@
 				<div class="container">
 					<form:form modelAttribute="searchForm"
 						cssClass="form-horizontal form-label-left"
-						servletRelativeAction="/history/1" method="post">
+						servletRelativeAction="/history/list/1" method="post">
 						<div class="item form-group">
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
 								for="name">Code </label>
@@ -47,8 +47,7 @@
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
 								for="code">Type </label>
 							<div class="col-md-6 col-sm-6 ">
-								<form:select type="text" path="type"
-									cssClass="form-control ">
+								<form:select type="text" path="type" cssClass="form-control ">
 									<form:options items="${mapType }" />
 								</form:select>
 
@@ -74,13 +73,12 @@
 								<th class="column-title">Price</th>
 								<th class="column-title">Type</th>
 								<th class="column-title">Action</th>
-								
+
 							</tr>
 						</thead>
 
 						<tbody>
-							<c:forEach items="${listHistory }" var="history"
-								varStatus="loop">
+							<c:forEach items="${listHistory }" var="history" varStatus="loop">
 								<c:choose>
 									<c:when test="${loop.index %2 == 0 }">
 										<tr class="even pointer">
@@ -95,13 +93,13 @@
 								<td class=" ">${history.productInfo.code }</td>
 								<td class=" ">${history.productInfo.name }</td>
 								<td class=" ">${history.quantity }</td>
-								<td class=" ">${history.price }</td>
-								
+								<td class="price-small">${history.price }</td>
+
 								<c:choose>
 									<c:when test="${history.type == 1 }">
-										<td>Goods Receipt </td>
+										<td>Goods Receipt</td>
 									</c:when>
-									
+
 									<c:otherwise>
 										<td>Goods Issues</td>
 									</c:otherwise>
@@ -125,5 +123,8 @@
 	}
 
 	$(document).ready(function() {
+		$('.price-small').each(function() {
+			$(this).text(numeral($(this).text()).format('0,0'));
+		})
 	});
 </script>

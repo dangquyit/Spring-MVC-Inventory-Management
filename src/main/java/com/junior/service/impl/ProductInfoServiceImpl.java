@@ -32,17 +32,19 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 		LOGGER.info("Find all Product Info");
 		StringBuilder queryStr = new StringBuilder();
 		Map<String, Object> mapParams = new HashMap<>();
-		if (productInfo.getId() != 0) {
-			queryStr.append(" and model.id =:id");
-			mapParams.put("id", productInfo.getId());
-		}
-		if (productInfo.getCode() != null && !productInfo.getCode().isEmpty()) {
-			queryStr.append(" and model.code =:code");
-			mapParams.put("code", productInfo.getCode());
-		}
-		if (productInfo.getName() != null && !productInfo.getName().isEmpty()) {
-			queryStr.append(" and model.name LIKE :name");
-			mapParams.put("name", "%" + productInfo.getName() + "%");
+		if(productInfo != null) {
+			if (productInfo.getId() != 0) {
+				queryStr.append(" and model.id =:id");
+				mapParams.put("id", productInfo.getId());
+			}
+			if (productInfo.getCode() != null && !productInfo.getCode().isEmpty()) {
+				queryStr.append(" and model.code =:code");
+				mapParams.put("code", productInfo.getCode());
+			}
+			if (productInfo.getName() != null && !productInfo.getName().isEmpty()) {
+				queryStr.append(" and model.name LIKE :name");
+				mapParams.put("name", "%" + productInfo.getName() + "%");
+			}
 		}
 		return productInfoDAO.findAll(queryStr.toString(), mapParams, paging);
 	}
@@ -91,7 +93,8 @@ public class ProductInfoServiceImpl implements ProductInfoService {
 		productInfoDAO.update(instance);
 	}
 
-	private void processUploadFile(MultipartFile multipartFile, long currentTimeMillis) throws IllegalStateException, IOException {
+	private void processUploadFile(MultipartFile multipartFile, long currentTimeMillis)
+			throws IllegalStateException, IOException {
 		if (!multipartFile.getOriginalFilename().isEmpty()) {
 			File dir = new File(ConfigLoader.getInstance().getValue("upload.location"));
 			if (!dir.exists()) {

@@ -1,6 +1,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <div class="right_col" role="main">
 	<div class="clearfix"></div>
 
@@ -14,14 +15,15 @@
 
 
 			<div class="x_content">
-				<a style="display: block;" href="<c:url value="/goods-receipt/add"/> "
-					class="btn btn-app">Add<i class="fa fa-plus"></i></a>
+				<a style="display: block;"
+					href="<c:url value="/goods-receipt/add"/> " class="btn btn-app">Add<i
+					class="fa fa-plus"></i></a>
 				<div class="container">
 					<form:form modelAttribute="searchForm"
 						cssClass="form-horizontal form-label-left"
 						servletRelativeAction="/goods-receipt/list/1" method="post">
 						<div class="item form-group">
-							<label for="description"
+							<label for="code"
 								class="col-form-label col-md-3 col-sm-3 label-align">Code
 							</label>
 							<div class="col-md-6 col-sm-6 ">
@@ -30,16 +32,27 @@
 						</div>
 						<div class="item form-group">
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
-								for="code">From date </label>
+								for="fromDate">From date </label>
 							<div class="col-md-6 col-sm-6 ">
-								<form:input type="text" path="fromDate" cssClass="form-control " />
+								<div class="input-group date" id="fromDatePicker">
+									<form:input path="fromDate" cssClass="form-control" />
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
-								for="name">To date </label>
+								for="toDate">To date </label>
 							<div class="col-md-6 col-sm-6 ">
-								<form:input type="text" path="toDate" cssClass="form-control" />
+								<div class="input-group date" id="toDatePicker">
+									<form:input type="text" path="toDate" cssClass="form-control" />
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+
 							</div>
 						</div>
 						<div class="ln_solid"></div>
@@ -55,18 +68,18 @@
 						<thead>
 							<tr class="headings">
 								<th class="column-title">#</th>
-								<th class="column-title">Id</th>
 								<th class="column-title">Code</th>
-								<th class="column-title">Name</th>
-								<th class="column-title">Description</th>
+								<th class="column-title">Quantity</th>
+								<th class="column-title">Price</th>
+								<th class="column-title">Product</th>
+								<th class="column-title">Update date</th>
 								<th class="column-title no-link last text-center" colspan="3"><span
 									class="nobr">Action</span></th>
 							</tr>
 						</thead>
 
 						<tbody>
-							<c:forEach items="${listCategory }" var="category"
-								varStatus="loop">
+							<c:forEach items="${listInvoice }" var="invoice" varStatus="loop">
 								<c:choose>
 									<c:when test="${loop.index %2 == 0 }">
 										<tr class="even pointer">
@@ -77,18 +90,19 @@
 								</c:choose>
 
 								<td class=" ">${pageInfo.offset + loop.index + 1 }</td>
-								<td class=" ">${category.id }</td>
-								<td class=" ">${category.code }</td>
-								<td class=" ">${category.name }</td>
-								<td class=" ">${category.description }</td>
+								<td class=" ">${invoice.code }</td>
+								<td class=" ">${invoice.quantity }</td>
+								<td class="price-small">${invoice.price }</td>
+								<td class=" ">${invoice.productInfo.name }</td>
+								<td class="date">${invoice.updateDate }</td>
 								<td><a
-									href="<c:url value ="/category/view/${category.id}"/>"
+									href="<c:url value ="/goods-receipt/view/${invoice.id}"/>"
 									class="btn btn-round btn-secondary">View</a></td>
 								<td><a
-									href="<c:url value ="/category/edit/${category.id}"/>"
+									href="<c:url value ="/goods-receipt/edit/${invoice.id}"/>"
 									class="btn btn-round btn-info">Edit</a></td>
 								<td><a href="javascript:void(0);"
-									onclick="confirmDelete(${category.id})"
+									onclick="confirmDelete(${invoice.id})"
 									class="btn btn-round btn-danger">Delete</a></td>
 								</tr>
 							</c:forEach>
@@ -103,7 +117,7 @@
 <script type="text/javascript">
 	 function confirmDelete(id){
 		 if(confirm('Do you want delete this record?')){
-			 window.location.href = '<c:url value="/category/delete/"/>'+id;
+			 window.location.href = '<c:url value="/goods-receipt/delete/"/>'+id;
 		 }
 	 }
 
@@ -115,6 +129,15 @@
 	 
 	 $(document).ready(function(){
 		 processMessage();
+		 $('#fromDatePicker').datetimepicker({
+			 format : 'YYYY-MM-DD HH:mm:ss'
+		 });
+		 $('#toDatePicker').datetimepicker({
+			 format : 'YYYY-MM-DD HH:mm:ss'
+		 })
+		  $('.price-small').each(function(){
+			 $(this).text(numeral($(this).text()).format('0,0'));
+		 }) 
 	 });
 	 function processMessage(){
 		 var msgSuccess = '${msgSuccess}';

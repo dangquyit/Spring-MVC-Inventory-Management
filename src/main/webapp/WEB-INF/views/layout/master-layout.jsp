@@ -3,6 +3,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://tiles.apache.org/tags-tiles" prefix="tiles"%>
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -38,6 +39,9 @@
 <script
 	src="<c:url value="/resources/vendors/jquery/dist/jquery.min.js"/>"></script>
 
+<!-- Numberal -->
+	<script src="<c:url value ="/resources/numberal/min/numeral.min.js"/>"></script>
+
 <link
 	href="<c:url value="/resources/vendors/pnotify/dist/pnotify.css"/>"
 	rel="stylesheet">
@@ -47,16 +51,19 @@
 <link
 	href="<c:url value="/resources/vendors/pnotify/dist/pnotify.nonblock.css"/>"
 	rel="stylesheet">
+<!-- datetimepicker -->
+<link
+	href="<c:url value="/resources/vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css"/>"
+	rel="stylesheet">
 </head>
-
 <body class="nav-md footer_fixed">
 	<div class="container body">
 		<div class="main_container">
 			<div class="col-md-3 left_col">
 				<div class="left_col scroll-view">
 					<div class="navbar nav_title" style="border: 0;">
-						<a href="<c:url value ="/index"/>" class="site_title"><i class="fa fa-paw"></i>
-							<span>Inventory Management</span></a>
+						<a href="<c:url value ="/index"/>" class="site_title"><i
+							class="fa fa-paw"></i> <span>Inventory Management</span></a>
 					</div>
 
 					<div class="clearfix"></div>
@@ -131,6 +138,12 @@
 		src="<c:url value="/resources/vendors/pnotify/dist/pnotify.buttons.js"/>"></script>
 	<script
 		src="<c:url value="/resources/vendors/pnotify/dist/pnotify.nonblock.js"/>"></script>
+
+	<!-- datetimepicker -->
+	<script
+		src="<c:url value ="/resources/vendors/moment/min/moment.min.js"/>"></script>
+	<script
+		src="<c:url value ="/resources/vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"/>"></script>
 	<!-- Custom Theme Scripts -->
 	<script src="<c:url value="/resources/build/js/custom.min.js"/>"></script>
 

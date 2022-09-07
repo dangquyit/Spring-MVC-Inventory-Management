@@ -18,7 +18,7 @@
 						<br />
 						<form:form modelAttribute="modelForm"
 							cssClass="form-horizontal form-label-left"
-							servletRelativeAction="/category/save" method="POST">
+							servletRelativeAction="/goods-receipt/save" method="POST">
 							<form:hidden path="id" />
 							<form:hidden path="createDate" />
 							<form:hidden path="activeFlag" />
@@ -38,27 +38,50 @@
 							</div>
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12"
-									for="name">Name <span class="required">*</span>
+									for="productId">Product <span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="name"
-										cssClass="form-control col-md-7 col-xs-12"
-										disabled="${viewOnly}" />
-									<div class="has-error">
-										<form:errors path="name" cssClass="help-block"></form:errors>
-									</div>
+									<c:choose>
+										<c:when test="${!viewOnly}">
+
+											<form:select path="productId" cssClass="form-control col-md-7 col-xs-12">
+												<form:options items="${mapProduct}" />
+											</form:select>
+											<div class="has-error">
+												<form:errors path="productId" cssClass="help-block"></form:errors>
+											</div>
+										</c:when>
+										<c:otherwise>
+											<form:input path="productInfo.name" disabled="true"
+												cssClass="form-control col-md-7 col-xs-12" />
+										</c:otherwise>
+									</c:choose>
 								</div>
 								<div class="clearfix"></div>
 							</div>
 							<div class="form-group">
-								<label for="description"
-									class="control-label col-md-3 col-sm-3 col-xs-12">Description</label>
+								<label for="quantity"
+									class="control-label col-md-3 col-sm-3 col-xs-12">Quantity</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="description"
+									<form:input path="quantity"
 										cssClass="form-control col-md-7 col-xs-12"
 										disabled="${viewOnly}" />
 									<div class="has-error">
-										<form:errors path="description" cssClass="help-block"></form:errors>
+										<form:errors path="quantity" cssClass="help-block"></form:errors>
+									</div>
+								</div>
+								<div class="clearfix"></div>
+							</div>
+
+							<div class="form-group">
+								<label for="price"
+									class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+								<div class="col-md-6 col-sm-6 col-xs-12">
+									<form:input path="price"
+										cssClass="form-control col-md-7 col-xs-12"
+										disabled="${viewOnly}" />
+									<div class="has-error">
+										<form:errors path="price" cssClass="help-block"></form:errors>
 									</div>
 								</div>
 								<div class="clearfix"></div>
@@ -85,13 +108,13 @@
 <script type="text/javascript">
 	$(document).ready(
 			function() {
-				$('#categorylistId').addClass('current-page').siblings()
+				$('#goods-receiptlistId').addClass('current-page').siblings()
 						.removeClass('current-page');
-				var parent = $('#categorylistId').parents('li');
+				var parent = $('#goods-receiptlistId').parents('li');
 				parent.addClass('active').siblings().removeClass('active');
-				$('#categorylistId').parents().show();
+				$('#goods-receiptlistId').parents().show();
 			});
 	function cancel() {
-		window.location.href = '<c:url value="/category/list"/>'
+		window.location.href = '<c:url value="/goods-receipt/list"/>'
 	}
 </script>

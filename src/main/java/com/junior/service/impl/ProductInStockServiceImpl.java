@@ -84,15 +84,17 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 	public void saveOrUpdate(Invoice invoice) {
 		LOGGER.info("Save or Update product in stock");
 		if(invoice.getProductInfo() != null) {
-			String code = invoice.getProductInfo().getCode();
-			ProductInStock productInStock = productInStockDAO.findByProperty("productInfo.code", code).iterator().next();
-			if(productInStock != null) {
+			List<ProductInStock> listProductInStock = productInStockDAO.findByProperty("productInfo.id", invoice.getProductInfo().getId());
+			ProductInStock productInStock = null;
+			if(!listProductInStock.isEmpty() && listProductInStock != null) {
+				productInStock = new ProductInStock();
 				LOGGER.info("Update product in stock quantity = " + invoice.getQuantity() + "price = " + invoice.getPrice());
 				if(invoice.getType() == 1 ) {
 					productInStock.setPrice(invoice.getPrice());
 				}
 				productInStock.setQuantity(productInStock.getQuantity() + invoice.getQuantity());
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
+				productInStockDAO.update(productInStock);
 				return;
 			}
 			

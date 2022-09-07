@@ -2,6 +2,7 @@ package com.junior.controller;
 
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -52,6 +53,7 @@ public class GoodsReceiptController {
 		// Custom lai date va chap nhan gia tri null cua timestamp
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		dataBinder.registerCustomEditor(Timestamp.class, new CustomDateEditor(sdf, true));
+		dataBinder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 		if (dataBinder.getTarget().getClass() == Invoice.class) {
 			dataBinder.setValidator(invoiceValidator);
 		}
@@ -64,7 +66,7 @@ public class GoodsReceiptController {
 
 	@RequestMapping("/goods-receipt/list/{page}")
 	public String showInvoiceList(Model model, HttpSession session, @ModelAttribute("searchForm") Invoice invoice,
-			@PathVariable(name = "page") int page) {
+			@PathVariable(value = "page") int page) {
 		Paging paging = new Paging(3);
 		model.addAttribute("pageInfo", paging);
 		paging.setIndexPage(page);
@@ -95,7 +97,7 @@ public class GoodsReceiptController {
 	public String editInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
-			model.addAttribute("titlePage", "Edit Category");
+			model.addAttribute("titlePage", "Edit Invoice");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("mapProduct", initMapProduct());
@@ -108,7 +110,7 @@ public class GoodsReceiptController {
 	public String viewInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
-			model.addAttribute("titlePage", "View Category");
+			model.addAttribute("titlePage", "View Invoice");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
 			model.addAttribute("mapProduct", initMapProduct());
@@ -122,9 +124,9 @@ public class GoodsReceiptController {
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
 			if (invoice.getId() != 0) {
-				model.addAttribute("titlePage", "Edit Category");
+				model.addAttribute("titlePage", "Edit Invoice");
 			} else {
-				model.addAttribute("titlePage", "Add Category");
+				model.addAttribute("titlePage", "Add Invoice");
 			}
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("mapProduct", initMapProduct());
@@ -145,6 +147,7 @@ public class GoodsReceiptController {
 		} else {
 			LOGGER.info("Save invoice");
 			try {
+				invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 				invoiceService.save(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success !!!");
 			} catch (Exception e) {
