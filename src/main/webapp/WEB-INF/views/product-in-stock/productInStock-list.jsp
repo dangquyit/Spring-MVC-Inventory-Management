@@ -78,11 +78,12 @@
 								<td class=" ">${productInStock.productInfo.category.name }</td>
 								<td class=" ">${productInStock.productInfo.code }</td>
 								<td class=" ">${productInStock.productInfo.name }</td>
-								<c:url value="${productInStock.productInfo.imgUrl }" var="imgUrl" />
+								<c:url value="${productInStock.productInfo.imgUrl }"
+									var="imgUrl" />
 								<td class=" "><img src="${imgUrl }" alt="Error Image"
 									width="100px" height="100px" /></td>
 								<td class=" ">${productInStock.quantity }</td>
-								<td class=" ">${productInStock.price }</td>
+								<td class="price-small ">${productInStock.price }</td>
 							</c:forEach>
 						</tbody>
 					</table>
@@ -101,5 +102,8 @@
 	}
 
 	$(document).ready(function() {
+		$('.price-small').each(function() {
+			$(this).text(numeral($(this).text()).format('0,0'));
+		})
 	});
 </script>

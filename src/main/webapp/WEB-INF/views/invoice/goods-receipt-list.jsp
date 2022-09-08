@@ -15,9 +15,11 @@
 
 
 			<div class="x_content">
-				<a style="display: block;"
-					href="<c:url value="/goods-receipt/add"/> " class="btn btn-app">Add<i
-					class="fa fa-plus"></i></a>
+				<a href="<c:url value="/goods-receipt/add"/> " class="btn btn-app">Add<i
+					class="fa fa-plus"></i></a> <a
+					href="<c:url value="/goods-receipt/export"/> " class="btn btn-app">Export<i
+					class="fa fa-cloud-download"></i></a>
+
 				<div class="container">
 					<form:form modelAttribute="searchForm"
 						cssClass="form-horizontal form-label-left"

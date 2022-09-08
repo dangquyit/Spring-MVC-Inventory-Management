@@ -23,9 +23,11 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.junior.entity.Invoice;
 import com.junior.entity.ProductInfo;
+import com.junior.model.GoodsReceiptReport;
 import com.junior.model.Paging;
 import com.junior.service.InvoiceService;
 import com.junior.service.ProductInfoService;
@@ -156,6 +158,17 @@ public class GoodsReceiptController {
 			}
 		}
 		return "redirect:/goods-receipt/list";
+	}
+	
+	@GetMapping("/goods-receipt/export")
+	public ModelAndView export() {
+		ModelAndView modelAndView = new ModelAndView();
+		Invoice invoice = new Invoice();
+		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+		List<Invoice> listInvoice = invoiceService.findAll(invoice, null);
+		modelAndView.addObject(Constant.KEY_GOODS_RECEIPT_REPORT, listInvoice);
+		modelAndView.setView(new GoodsReceiptReport());
+		return modelAndView;
 	}
 	
 	private Map<String, String> initMapProduct() {
