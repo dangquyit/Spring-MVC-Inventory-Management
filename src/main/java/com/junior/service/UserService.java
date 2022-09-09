@@ -3,9 +3,10 @@ package com.junior.service;
 import java.util.List;
 
 import com.junior.entity.User;
+import com.junior.model.Paging;
 
 public interface UserService {
-	public List<User> findAll();
+	public List<User> findAll(User user, Paging paging);
 
 	public User findById(int id);
 

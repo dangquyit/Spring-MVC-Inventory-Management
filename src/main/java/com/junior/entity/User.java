@@ -42,6 +42,9 @@ public class User implements Serializable {
 //	@OneToMany(mappedBy="user")
 	@OneToMany(mappedBy="user", fetch = FetchType.EAGER)
 	private List<UserRole> userRoles;
+	
+	@Transient
+	private int roleId;
 
 	public User() {
 	}
@@ -132,4 +135,13 @@ public class User implements Serializable {
 		return userRole;
 	}
 
+	public int getRoleId() {
+		return roleId;
+	}
+
+	public void setRoleId(int roleId) {
+		this.roleId = roleId;
+	}
+
+	
 }

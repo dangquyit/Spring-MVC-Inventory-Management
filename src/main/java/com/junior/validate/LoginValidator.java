@@ -10,6 +10,7 @@ import org.springframework.validation.Validator;
 
 import com.junior.entity.User;
 import com.junior.service.UserService;
+import com.junior.util.HashtingPassword;
 @Component
 public class LoginValidator implements Validator {
 	@Autowired
@@ -29,7 +30,7 @@ public class LoginValidator implements Validator {
 				&& !(user.getPassword() == "" || user.getPassword() == null)) {
 			List<User> listUser = userService.findByProperty("userName", user.getUserName());
 			if (user != null && !listUser.isEmpty()) {
-				if (!user.getPassword().equals(listUser.get(0).getPassword())) {
+				if (!HashtingPassword.encrypt(user.getPassword()).equals(listUser.get(0).getPassword())) {
 					errors.rejectValue("password", "msg.wrong.password");
 				}
 			} else {
