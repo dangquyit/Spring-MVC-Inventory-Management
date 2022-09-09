@@ -1,6 +1,5 @@
 package com.junior.model;
 
-import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -17,12 +16,12 @@ import com.junior.entity.Invoice;
 import com.junior.util.Constant;
 import com.junior.util.DateUtil;
 
-public class GoodsReceiptReport extends AbstractXlsxView {
+public class InvoiceExportReport extends AbstractXlsxView {
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		response.setHeader("Content-Disposition", "attachment;filename=\"goods-receipt-export.xlsx\"");
+		response.setHeader("Content-Disposition", "attachment;filename=\"invoice-export-report.xlsx\"");
 		Sheet sheet = workbook.createSheet("data");
 		Row header = sheet.createRow(0);
 		header.createCell(0).setCellValue("#");
@@ -31,7 +30,7 @@ public class GoodsReceiptReport extends AbstractXlsxView {
 		header.createCell(3).setCellValue("Price");
 		header.createCell(4).setCellValue("Product");
 		header.createCell(5).setCellValue("Update date");
-		List<Invoice> listInvoice = (List<Invoice>) model.get(Constant.KEY_GOODS_RECEIPT_REPORT);
+		List<Invoice> listInvoice = (List<Invoice>) model.get(Constant.KEY_INVOICE_REPORT);
 		for (int i = 0; i < listInvoice.size(); i++) {
 			Invoice invoice = listInvoice.get(i);
 			Row row = sheet.createRow(i + 1);

@@ -35,6 +35,8 @@ public class InvoiceValidator implements Validator {
 					if (invoice.getId() != listInvoice.get(0).getId()) {
 						errors.rejectValue("code", "msg.code.exist");
 					}
+				} else {
+					errors.rejectValue("code", "msg.code.exist");
 				}
 			}
 		}

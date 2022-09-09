@@ -8,22 +8,22 @@
 	<div class="col-md-12 col-sm-12  ">
 		<div class="x_panel">
 			<div class="x_title">
-				<h2>Goods Receipt List</h2>
+				<h2>Goods Issue List</h2>
 
 				<div class="clearfix"></div>
 			</div>
 
 
 			<div class="x_content">
-				<a href="<c:url value="/goods-receipt/add"/> " class="btn btn-app">Add<i
+				<a href="<c:url value="/goods-issue/add"/> " class="btn btn-app">Add<i
 					class="fa fa-plus"></i></a> <a
-					href="<c:url value="/goods-receipt/export"/> " class="btn btn-app">Export<i
+					href="<c:url value="/goods-issue/export"/> " class="btn btn-app">Export<i
 					class="fa fa-cloud-download"></i></a>
 
 				<div class="container">
 					<form:form modelAttribute="searchForm"
 						cssClass="form-horizontal form-label-left"
-						servletRelativeAction="/goods-receipt/list/1" method="post">
+						servletRelativeAction="/goods-issue/list/1" method="post">
 						<div class="item form-group">
 							<label for="code"
 								class="col-form-label col-md-3 col-sm-3 label-align">Code
@@ -35,23 +35,26 @@
 						<div class="item form-group">
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
 								for="fromDate">From date </label>
-							<div class=' col-md-6 col-sm-6 input-group date'
-								id='fromDatePicker'>
-								<form:input path="fromDate" type='text' cssClass="form-control" />
-								<span class="input-group-addon"> <span
-									class="glyphicon glyphicon-calendar"></span>
-								</span>
+							<div class="col-md-6 col-sm-6 ">
+								<div class="input-group date" id="fromDatePicker">
+									<form:input path="fromDate" cssClass="form-control" />
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
 							</div>
 						</div>
 						<div class="item form-group">
 							<label class="col-form-label col-md-3 col-sm-3 label-align"
 								for="toDate">To date </label>
-							<div class=' col-md-6 col-sm-6 input-group date'
-								id='toDatePicker'>
-								<form:input path="toDate" type='text' cssClass="form-control" />
-								<span class="input-group-addon"> <span
-									class="glyphicon glyphicon-calendar"></span>
-								</span>
+							<div class="col-md-6 col-sm-6 ">
+								<div class="input-group date" id="toDatePicker">
+									<form:input type="text" path="toDate" cssClass="form-control" />
+									<span class="input-group-addon"> <span
+										class="glyphicon glyphicon-calendar"></span>
+									</span>
+								</div>
+
 							</div>
 						</div>
 						<div class="ln_solid"></div>
@@ -95,10 +98,10 @@
 								<td class=" ">${invoice.productInfo.name }</td>
 								<td class="date">${invoice.updateDate }</td>
 								<td><a
-									href="<c:url value ="/goods-receipt/view/${invoice.id}"/>"
+									href="<c:url value ="/goods-issue/view/${invoice.id}"/>"
 									class="btn btn-round btn-secondary">View</a></td>
 								<td><a
-									href="<c:url value ="/goods-receipt/edit/${invoice.id}"/>"
+									href="<c:url value ="/goods-issue/edit/${invoice.id}"/>"
 									class="btn btn-round btn-info">Edit</a></td>
 								<td><a href="javascript:void(0);"
 									onclick="confirmDelete(${invoice.id})"
@@ -116,13 +119,13 @@
 <script type="text/javascript">
 	 function confirmDelete(id){
 		 if(confirm('Do you want delete this record?')){
-			 window.location.href = '<c:url value="/goods-receipt/delete/"/>'+id;
+			 window.location.href = '<c:url value="/goods-issue/delete/"/>'+id;
 		 }
 	 }
 
 	 function gotoPage(page) {
 		 console.log(page);
-		$('#searchForm').attr('action', '<c:url value="/goods-receipt/list/"/>' + page);
+		$('#searchForm').attr('action', '<c:url value="/goods-issue/list/"/>' + page);
 		$('#searchForm').submit();
 	 }
 	 

@@ -63,4 +63,14 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/invoice/goods-receipt-action.jsp" />
 	</definition>
+	
+	<definition name="goods-issue-list" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/invoice/goods-issue-list.jsp" />
+	</definition>
+
+	<definition name="goods-issue-action" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/invoice/goods-issue-action.jsp" />
+	</definition>
 </tiles-definitions>

@@ -65,41 +65,45 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 	@Override
 	public void save(ProductInStock instance) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void update(ProductInStock instance) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void delete(ProductInStock instance) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void saveOrUpdate(Invoice invoice) {
 		LOGGER.info("Save or Update product in stock");
-		if(invoice.getProductInfo() != null) {
-			List<ProductInStock> listProductInStock = productInStockDAO.findByProperty("productInfo.id", invoice.getProductInfo().getId());
-			LOGGER.info("Id product info: "+ invoice.getProductInfo().getId());
+		if (invoice.getProductInfo() != null) {
+			List<ProductInStock> listProductInStock = productInStockDAO.findByProperty("productInfo.id",
+					invoice.getProductInfo().getId());
+			LOGGER.info("Id product info: " + invoice.getProductInfo().getId());
 			ProductInStock productInStock = null;
-			if(!listProductInStock.isEmpty() && listProductInStock != null) {
-				productInStock = new ProductInStock();
-				LOGGER.info("Update product in stock quantity = " + invoice.getQuantity() + "price = " + invoice.getPrice());
-				if(invoice.getType() == 1 ) {
+			if (!listProductInStock.isEmpty() && listProductInStock != null) {
+				productInStock = listProductInStock.get(0);
+				LOGGER.info("Update product in stock quantity = " + invoice.getQuantity() + "price = "
+						+ invoice.getPrice());
+				if (invoice.getType() == 1) {
 					productInStock.setPrice(invoice.getPrice());
+					productInStock.setQuantity(productInStock.getQuantity() + invoice.getQuantity());
+				} else {
+					productInStock.setQuantity(productInStock.getQuantity() - invoice.getQuantity());
 				}
-				productInStock.setQuantity(productInStock.getQuantity() + invoice.getQuantity());
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
 				productInStockDAO.update(productInStock);
 				return;
 			}
-			
-			if(invoice.getType() == 1) {
+
+			if (invoice.getType() == 1) {
 				LOGGER.info("Insert product in stock in db");
 				productInStock = new ProductInStock();
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
@@ -113,7 +117,7 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 				return;
 			}
 		}
-		
+
 	}
 
 }

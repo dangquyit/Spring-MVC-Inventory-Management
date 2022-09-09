@@ -15,7 +15,6 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,7 +35,7 @@ import com.junior.util.Constant;
 import com.junior.validate.InvoiceValidator;
 
 @Controller
-public class GoodsReceiptController {
+public class GoodsIssueController {
 	@Autowired
 	private InvoiceService invoiceService;
 	
@@ -46,7 +45,7 @@ public class GoodsReceiptController {
 	@Autowired
 	private InvoiceValidator invoiceValidator;
 
-	private static final Logger LOGGER = Logger.getLogger(GoodsReceiptController.class);
+	private static final Logger LOGGER = Logger.getLogger(GoodsIssueController.class);
 
 	@InitBinder
 	public void initBinder(WebDataBinder dataBinder) {
@@ -62,18 +61,18 @@ public class GoodsReceiptController {
 		}
 	}
 
-	@RequestMapping(value = { "/goods-receipt/list", "/goods-receipt/list/" })
+	@RequestMapping(value = { "/goods-issue/list", "/goods-issue/list/" })
 	public String redirect() {
-		return "redirect:/goods-receipt/list/1";
+		return "redirect:/goods-issue/list/1";
 	}
 
-	@RequestMapping("/goods-receipt/list/{page}")
+	@RequestMapping("/goods-issue/list/{page}")
 	public String showInvoiceList(Model model, HttpSession session, @ModelAttribute("searchForm") Invoice invoice,
 			@PathVariable(value = "page") int page) {
 		Paging paging = new Paging(3);
 		paging.setIndexPage(page);
 		model.addAttribute("pageInfo", paging);
-		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		List<Invoice> listInvoice = invoiceService.findAll(invoice, paging);
 		if (session.getAttribute(Constant.MSG_SUCCESS) != null) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
@@ -84,19 +83,19 @@ public class GoodsReceiptController {
 			session.removeAttribute(Constant.MSG_ERROR);
 		}
 		model.addAttribute("listInvoice", listInvoice);
-		return "goods-receipt-list";
+		return "goods-issue-list";
 	}
 
-	@GetMapping("/goods-receipt/add")
+	@GetMapping("/goods-issue/add")
 	public String addInvoice(Model model) {
 		model.addAttribute("modelForm", new Invoice());
 		model.addAttribute("titlePage", "Add Invoice");
 		model.addAttribute("viewOnly", false);
 		model.addAttribute("mapProduct", initMapProduct());
-		return "goods-receipt-action";
+		return "goods-issue-action";
 	}
 
-	@GetMapping("/goods-receipt/edit/{id}")
+	@GetMapping("/goods-issue/edit/{id}")
 	public String editInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
@@ -104,12 +103,12 @@ public class GoodsReceiptController {
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("mapProduct", initMapProduct());
-			return "goods-receipt-action";
+			return "goods-issue-action";
 		}
-		return "redirect:/goods-receipt/list";
+		return "redirect:/goods-issue/list";
 	}
 
-	@GetMapping("/goods-receipt/view/{id}")
+	@GetMapping("/goods-issue/view/{id}")
 	public String viewInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
@@ -117,12 +116,12 @@ public class GoodsReceiptController {
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
 			model.addAttribute("mapProduct", initMapProduct());
-			return "goods-receipt-action";
+			return "goods-issue-action";
 		}
-		return "redirect:/goods-receipt/list";
+		return "redirect:/goods-issue/list";
 	}
 
-	@PostMapping("/goods-receipt/save")
+	@PostMapping("/goods-issue/save")
 	public String saveInvoice(Model model, @ModelAttribute("modelForm") @Validated Invoice invoice,
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
@@ -134,7 +133,7 @@ public class GoodsReceiptController {
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("mapProduct", initMapProduct());
 			model.addAttribute("viewOnly", false);
-			return "goods-receipt-action";
+			return "goods-issue-action";
 		}
 		if (invoice.getId() != 0) {
 			LOGGER.info("Update invoice");
@@ -150,7 +149,7 @@ public class GoodsReceiptController {
 		} else {
 			LOGGER.info("Save invoice");
 			try {
-				invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+				invoice.setType(Constant.TYPE_GOODS_ISSUES);
 				invoiceService.save(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success !!!");
 			} catch (Exception e) {
@@ -158,14 +157,14 @@ public class GoodsReceiptController {
 				e.printStackTrace();
 			}
 		}
-		return "redirect:/goods-receipt/list";
+		return "redirect:/goods-issue/list";
 	}
 	
-	@GetMapping("/goods-receipt/export")
+	@GetMapping("/goods-issue/export")
 	public ModelAndView export() {
 		ModelAndView modelAndView = new ModelAndView();
 		Invoice invoice = new Invoice();
-		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
+		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		List<Invoice> listInvoice = invoiceService.findAll(invoice, null);
 		modelAndView.addObject(Constant.KEY_INVOICE_REPORT, listInvoice);
 		modelAndView.setView(new InvoiceExportReport());

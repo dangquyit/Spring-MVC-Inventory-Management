@@ -49,7 +49,6 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
 			long totalRecords =(long) queryCount.uniqueResult();
 			paging.setTotalRows(totalRecords);
 		}
-		System.out.println("SQL find all Category:  " + query.toString());
 		return query.getResultList();
 	}
 

@@ -1,6 +1,7 @@
 package com.junior.service.impl;
 
 import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -36,23 +37,27 @@ public class InvoiceServiceImpl implements InvoiceService {
 	public List<Invoice> findAll(Invoice invoice, Paging paging) {
 		StringBuilder queryStr = new StringBuilder();
 		Map<String, Object> mapParams = new HashMap<>();
-		if(invoice != null) {
-			if(invoice.getType() != 0) {
+		if (invoice != null) {
+			if (invoice.getType() != 0) {
 				queryStr.append(" AND model.type =: type");
 				mapParams.put("type", invoice.getType());
 			}
-			if(invoice.getCode() != null) {
+			if (invoice.getCode() != null && !invoice.getCode().isEmpty()) {
 				queryStr.append(" AND model.code =: code");
 				mapParams.put("code", invoice.getCode());
 			}
-			if(invoice.getFromDate() != null) {
-				queryStr.append(" AND model.updateDate >= :fromDate");
-				mapParams.put("fromDate", new Timestamp(invoice.getFromDate().getTime()));
+
+			if (invoice.getFromDate() != null) {
+				queryStr.append(" AND model.updateDate >= TIMESTAMP(:fromDate)");
+				mapParams.put("fromDate", dateToString(invoice.getFromDate()));
+				System.out.println("From date: " + dateToString(invoice.getFromDate()));
 			}
-			if(invoice.getToDate() != null) {
-				queryStr.append(" AND model.updateDate <= :toDate");
-				mapParams.put("toDate", new Timestamp(invoice.getToDate().getTime()));
+			if (invoice.getToDate() != null) {
+				queryStr.append(" AND model.updateDate <= TIMESTAMP(:toDate)");
+				mapParams.put("toDate", dateToString(invoice.getToDate()));
+				System.out.println("To date: " + dateToString(invoice.getToDate()));
 			}
+
 		}
 		return invoiceDAO.findAll(queryStr.toString(), mapParams, paging);
 	}
@@ -102,4 +107,8 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	}
 
+	private String dateToString(Date date) {
+		SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		return simpleDateFormat.format(date);
+	}
 }
