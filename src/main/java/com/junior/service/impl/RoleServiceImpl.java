@@ -1,5 +1,7 @@
 package com.junior.service.impl;
 
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +12,7 @@ import com.junior.dao.RoleDAO;
 import com.junior.entity.Role;
 import com.junior.model.Paging;
 import com.junior.service.RoleService;
+import com.junior.validate.RoleValidator;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
@@ -24,31 +27,34 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public Role findById(int id) {
-		// TODO Auto-generated method stub
-		return null;
+		return roleDAO.findById(Role.class, id);
 	}
 
 	@Override
 	public List<Role> findByProperty(String property, Object value) {
 		// TODO Auto-generated method stub
-		return null;
+		return roleDAO.findByProperty(property, value);
 	}
 
 	@Override
 	public void save(Role instance) {
-		// TODO Auto-generated method stub
-
+		instance.setCreateDate(new Timestamp(new Date().getTime()));
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		instance.setActiveFlag(1);
+		roleDAO.save(instance);
 	}
 
 	@Override
 	public void update(Role instance) {
-		// TODO Auto-generated method stub
-
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		instance.setActiveFlag(1);
+		roleDAO.update(instance);
 	}
 
 	@Override
 	public void delete(Role instance) {
-		// TODO Auto-generated method stub
-
+		instance.setUpdateDate(new Timestamp(new Date().getTime()));
+		instance.setActiveFlag(0);
+		roleDAO.update(instance);
 	}
 }

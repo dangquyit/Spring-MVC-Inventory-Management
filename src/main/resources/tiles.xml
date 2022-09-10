@@ -83,4 +83,14 @@
 		<put-attribute name="body"
 			value="/WEB-INF/views/user/user-action.jsp" />
 	</definition>
+	
+	<definition name="role-list" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/role/role-list.jsp" />
+	</definition>
+	
+	<definition name="role-action" extends="master">
+		<put-attribute name="body"
+			value="/WEB-INF/views/role/role-action.jsp" />
+	</definition>
 </tiles-definitions>

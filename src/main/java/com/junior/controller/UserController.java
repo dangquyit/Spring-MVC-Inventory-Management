@@ -1,4 +1,5 @@
 package com.junior.controller;
+import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -47,6 +48,7 @@ public class UserController {
 			return;
 		}
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		binder.registerCustomEditor(Timestamp.class, new CustomDateEditor(sdf, true));
 		binder.registerCustomEditor(Date.class, new CustomDateEditor(sdf, true));
 		if (binder.getTarget().getClass() == User.class) {
 			binder.setValidator(userValidator);

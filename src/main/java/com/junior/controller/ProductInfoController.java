@@ -54,7 +54,7 @@ public class ProductInfoController {
 		dataBinder.registerCustomEditor(Timestamp.class, new CustomDateEditor(sdf, true));
 		if (dataBinder.getTarget().getClass() == ProductInfo.class) {
 			dataBinder.setValidator(productInfoValidator);
-		}
+		} 
 	}
 
 	@RequestMapping(value = { "/product-info/list", "/product-info/list/" })
