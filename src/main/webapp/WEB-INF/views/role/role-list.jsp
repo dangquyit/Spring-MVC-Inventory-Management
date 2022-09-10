@@ -16,6 +16,10 @@
 			<div class="x_content">
 				<a style="display: block;" href="<c:url value="/role/add"/> "
 					class="btn btn-app">Add<i class="fa fa-plus"></i></a>
+				<form:form modelAttribute="searchForm"
+					cssClass="form-horizontal form-label-left"
+					servletRelativeAction="/role/list/1" method="post">
+				</form:form>
 				<div class="table-responsive">
 					<table class="table table-striped jambo_table bulk_action">
 						<thead>
@@ -30,8 +34,7 @@
 						</thead>
 
 						<tbody>
-							<c:forEach items="${listRole }" var="role"
-								varStatus="loop">
+							<c:forEach items="${listRole }" var="role" varStatus="loop">
 								<c:choose>
 									<c:when test="${loop.index %2 == 0 }">
 										<tr class="even pointer">
@@ -45,11 +48,9 @@
 								<td class=" ">${role.id }</td>
 								<td class=" ">${role.roleName }</td>
 								<td class=" ">${role.description }</td>
-								<td><a
-									href="<c:url value ="/role/view/${role.id}"/>"
+								<td><a href="<c:url value ="/role/view/${role.id}"/>"
 									class="btn btn-round btn-secondary">View</a></td>
-								<td><a
-									href="<c:url value ="/role/edit/${role.id}"/>"
+								<td><a href="<c:url value ="/role/edit/${role.id}"/>"
 									class="btn btn-round btn-info">Edit</a></td>
 								<td><a href="javascript:void(0);"
 									onclick="confirmDelete(${role.id})"
@@ -70,7 +71,12 @@
 			 window.location.href = '<c:url value="/role/delete/"/>'+id;
 		 }
 	 }
-
+	 function gotoPage(page) {
+		 console.log(page);
+		$('#searchForm').attr('action', '<c:url value="/product-info/list/"/>' + page);
+		$('#searchForm').submit();
+	 }
+	 
 	 $(document).ready(function(){
 		 processMessage();
 	 });

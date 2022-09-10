@@ -44,7 +44,8 @@
 									<c:choose>
 										<c:when test="${!viewOnly}">
 
-											<form:select path="productId" cssClass="form-control col-md-7 col-xs-12">
+											<form:select path="productId"
+												cssClass="form-control col-md-7 col-xs-12">
 												<form:options items="${mapProduct}" />
 											</form:select>
 											<div class="has-error">
@@ -61,7 +62,9 @@
 							</div>
 							<div class="form-group">
 								<label for="quantity"
-									class="control-label col-md-3 col-sm-3 col-xs-12">Quantity</label>
+									class="control-label col-md-3 col-sm-3 col-xs-12">Quantity
+									<span class="required">*</span>
+								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="quantity"
 										cssClass="form-control col-md-7 col-xs-12"
@@ -75,7 +78,9 @@
 
 							<div class="form-group">
 								<label for="price"
-									class="control-label col-md-3 col-sm-3 col-xs-12">Price</label>
+									class="control-label col-md-3 col-sm-3 col-xs-12">Price
+									<span class="required">*</span>
+								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<form:input path="price"
 										cssClass="form-control col-md-7 col-xs-12"

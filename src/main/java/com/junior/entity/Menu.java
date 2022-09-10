@@ -4,6 +4,7 @@ import java.io.Serializable;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Map;
 
 /**
  * The persistent class for the menu database table.
@@ -38,7 +39,7 @@ public class Menu implements Serializable {
 	private String url;
 
 	// bi-directional many-to-one association to Auth
-	@OneToMany(mappedBy = "menu")
+	@OneToMany(mappedBy = "menu", fetch = FetchType.EAGER)
 	private List<Auth> auths;
 
 	@Transient // Annotation disable
@@ -46,6 +47,10 @@ public class Menu implements Serializable {
 
 	@Transient
 	private String idMenu;
+	
+	@Transient
+	private Map<Integer, Integer> mapAuth;
+	
 
 	public int getId() {
 		return this.id;
@@ -148,5 +153,15 @@ public class Menu implements Serializable {
 	public void setIdMenu(String idMenu) {
 		this.idMenu = idMenu;
 	}
+
+	public Map<Integer, Integer> getMapAuth() {
+		return mapAuth;
+	}
+
+	public void setMapAuth(Map<Integer, Integer> mapAuth) {
+		this.mapAuth = mapAuth;
+	}
+	
+	
 
 }
