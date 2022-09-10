@@ -62,7 +62,7 @@ public class UserController {
 	@RequestMapping(value = "/user/list/{page}")
 	public String showUsersList(Model model, HttpSession session, @ModelAttribute("searchForm") User user,
 			@PathVariable("page") int page) {
-		Paging paging = new Paging(5);
+		Paging paging = new Paging(3);
 		paging.setIndexPage(page);
 		List<User> listUser = userService.findAll(user, paging);
 		if (session.getAttribute(Constant.MSG_SUCCESS) != null) {
@@ -157,13 +157,11 @@ public class UserController {
 
 		}
 
-		// UserRole userRole =(UserRole) user.getUserRoles().iterator().next();
 		if (user.getId() != 0) {
 			try {
 				userService.update(user);
 				session.setAttribute(Constant.MSG_SUCCESS, "Update success!!!");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				LOGGER.error(e.getMessage());
 				session.setAttribute(Constant.MSG_ERROR, "Update has error");
@@ -174,7 +172,6 @@ public class UserController {
 				userService.save(user);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				session.setAttribute(Constant.MSG_ERROR, "Insert has error!!!");
 			}
@@ -192,7 +189,6 @@ public class UserController {
 				userService.delete(user);
 				session.setAttribute(Constant.MSG_SUCCESS, "Delete success!!!");
 			} catch (Exception e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				session.setAttribute(Constant.MSG_ERROR, "Delete has error!!!");
 			}

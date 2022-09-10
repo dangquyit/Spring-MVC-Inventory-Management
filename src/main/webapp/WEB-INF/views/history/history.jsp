@@ -118,7 +118,7 @@
 	function gotoPage(page) {
 		console.log(page);
 		$('#searchForm').attr('action',
-				'<c:url value="/product-in-stock/list/"/>' + page);
+				'<c:url value="/history/list/"/>' + page);
 		$('#searchForm').submit();
 	}
 
