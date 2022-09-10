@@ -144,6 +144,6 @@ public class RoleController {
 			e.printStackTrace();
 			model.addAttribute(Constant.MSG_ERROR, "Delete has error!!!");
 		}
-		return "redirec:/role/list/1";
+		return "redirect:/role/list/1";
 	}
 }

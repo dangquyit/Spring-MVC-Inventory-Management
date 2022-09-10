@@ -12,7 +12,6 @@ import com.junior.dao.RoleDAO;
 import com.junior.entity.Role;
 import com.junior.model.Paging;
 import com.junior.service.RoleService;
-import com.junior.validate.RoleValidator;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
