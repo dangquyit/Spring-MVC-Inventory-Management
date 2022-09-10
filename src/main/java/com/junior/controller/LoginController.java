@@ -67,11 +67,11 @@ public class LoginController {
 		for (Auth auth : listAuth) {
 			Menu menu = auth.getMenu();
 			if (menu.getParentId() == 0 && menu.getOrderIndex() != -1 && menu.getActiveFlag() == 1
-					&& auth.getActiveFlag() == 1 && auth.getPremisstion() == 1) {
+					&& auth.getActiveFlag() == 1 && auth.getPermisstion() == 1) {
 				menu.setIdMenu(menu.getUrl().replace("/", "") + "Id");
 				listParrentMenu.add(menu);
 			} else if (menu.getParentId() != 0 && menu.getOrderIndex() != -1 && menu.getActiveFlag() == 1
-					&& auth.getActiveFlag() == 1 && auth.getPremisstion() == 1) {
+					&& auth.getActiveFlag() == 1 && auth.getPermisstion() == 1) {
 				menu.setIdMenu(menu.getUrl().replace("/", "") + "Id");
 				listChildMenu.add(menu);
 			}

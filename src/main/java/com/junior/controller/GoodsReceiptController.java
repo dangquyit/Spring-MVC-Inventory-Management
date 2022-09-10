@@ -69,7 +69,7 @@ public class GoodsReceiptController {
 	@RequestMapping("/goods-receipt/list/{page}")
 	public String showInvoiceList(Model model, HttpSession session, @ModelAttribute("searchForm") Invoice invoice,
 			@PathVariable(value = "page") int page) {
-		Paging paging = new Paging(3);
+		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		model.addAttribute("pageInfo", paging);
 		invoice.setType(Constant.TYPE_GOODS_RECEIPT);

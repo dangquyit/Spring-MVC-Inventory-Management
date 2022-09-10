@@ -64,7 +64,7 @@ public class UserController {
 	@RequestMapping(value = "/user/list/{page}")
 	public String showUsersList(Model model, HttpSession session, @ModelAttribute("searchForm") User user,
 			@PathVariable("page") int page) {
-		Paging paging = new Paging(3);
+		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		List<User> listUser = userService.findAll(user, paging);
 		if (session.getAttribute(Constant.MSG_SUCCESS) != null) {

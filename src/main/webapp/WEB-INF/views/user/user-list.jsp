@@ -14,7 +14,7 @@
 
 
 			<div class="x_content">
-				<a style="display: block;" href="<c:url value="/user/add"/> "
+				<a href="<c:url value="/user/add"/> "
 					class="btn btn-app">Add<i class="fa fa-plus"></i></a>
 				<div class="container">
 					<form:form modelAttribute="searchForm"

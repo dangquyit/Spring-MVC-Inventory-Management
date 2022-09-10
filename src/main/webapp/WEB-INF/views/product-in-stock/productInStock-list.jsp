@@ -3,8 +3,6 @@
 <%@taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <div class="right_col" role="main">
 	<div class="clearfix"></div>
-
-	<div class="col-md-12 col-sm-12  ">
 		<div class="x_panel">
 			<div class="x_title">
 				<h2>Product In Stock List</h2>
@@ -92,7 +90,6 @@
 			</div>
 		</div>
 	</div>
-</div>
 <script type="text/javascript">
 	function gotoPage(page) {
 		console.log(page);

@@ -17,4 +17,8 @@ public interface MenuService {
 	public void update(Menu instance);
 
 	public void delete(Menu instance);
+	
+	public void changeStatus(int id);
+	
+	public void updatePermission(int menuId, int roleId, int permission);
 }

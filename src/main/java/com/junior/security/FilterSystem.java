@@ -47,7 +47,7 @@ public class FilterSystem implements HandlerInterceptor {
 		List<Auth> listAuth = userRole.getRole().getAuths();
 		for (Auth auth : listAuth) {
 			if (url.contains(auth.getMenu().getUrl())) {
-				return auth.getPremisstion() == 1;
+				return auth.getPermisstion() == 1;
 			}
 		}
 		return false;

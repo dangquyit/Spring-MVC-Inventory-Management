@@ -65,7 +65,7 @@ public class ProductInfoController {
 	@RequestMapping("/product-info/list/{page}")
 	public String showProductInfoList(Model model, HttpSession session,
 			@ModelAttribute("searchForm") ProductInfo productInfo, @PathVariable(name = "page") int page) {
-		Paging paging = new Paging(2);
+		Paging paging = new Paging(5);
 		model.addAttribute("pageInfo", paging);
 		paging.setIndexPage(page);
 		List<ProductInfo> listProductInfo = productInfoService.findAll(productInfo, paging);

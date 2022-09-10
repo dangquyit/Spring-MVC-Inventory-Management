@@ -4,16 +4,18 @@
 <div class="right_col" role="main">
 	<div class="clearfix"></div>
 
-	<div class="col-md-12 col-sm-12  ">
-		<div class="x_panel">
-			<div class="x_title">
-				<h2>Role List</h2>
+	<div class="x_panel">
+		<div class="x_title">
+			<h2>Role List</h2>
 
-				<div class="clearfix"></div>
-			</div>
+			<div class="clearfix"></div>
+		</div>
 
 
-			<div class="x_content">
+		<div class="x_content">
+			<div class="container">
+				<a  href="<c:url value="/menu/permission"/> "
+					class="btn btn-app">Permission<i class="fa fa-plus"></i></a>
 				<div class="container">
 					<form:form modelAttribute="searchForm"
 						cssClass="form-horizontal form-label-left"
@@ -37,7 +39,7 @@
 					<table class="table table-striped jambo_table bulk_action">
 						<thead>
 							<tr class="headings">
-								<th  rowspan="2" class="column-title"
+								<th rowspan="2" class="column-title"
 									style="border-left: 2px solid;">#</th>
 								<th rowspan="2" class="column-title"
 									style="border-left: 2px solid;">Url</th>
@@ -68,21 +70,30 @@
 								<td class=" ">${pageInfo.offset + loop.index + 1 }</td>
 								<td class=" ">${menu.url }</td>
 								<c:choose>
-									<c:when test="${menu.activeFlag == 1 }">
-										<td class=" " style="color: green;">Enable</td>
+									<c:when test="${menu.activeFlag==1}">
+										<td><a href="javascript:void(0);"
+											onclick="confirmChange(${menu.id},${menu.activeFlag});"
+											class="btn btn-round btn-danger">Disable</a></td>
+										</td>
 									</c:when>
 									<c:otherwise>
-										<td class=" " style="color: red;">Disable</td>
+										<td><a href="javascript:void(0);"
+											onclick="confirmChange(${menu.id},${menu.activeFlag});"
+											class="btn btn-round btn-primary">Enable</a></td>
+										</td>
 									</c:otherwise>
+
 								</c:choose>
 
 								<c:forEach items="${menu.mapAuth }" var="auth">
 									<c:choose>
 										<c:when test="${auth.value==1}">
-											<td style="text-align: center;"><i class="fa fa-check" style="color: green;"></i></td>
+											<td style="text-align: center;"><i class="fa fa-check"
+												style="color: green;"></i></td>
 										</c:when>
 										<c:otherwise>
-											<td style="text-align: center;"><i class="fa fa-times" style="color: red;"></i></td>
+											<td style="text-align: center;"><i class="fa fa-times"
+												style="color: red;"></i></td>
 										</c:otherwise>
 									</c:choose>
 								</c:forEach>
@@ -101,6 +112,13 @@
 		console.log(page);
 		$('#searchForm').attr('action', '<c:url value="/menu/list/"/>' + page);
 		$('#searchForm').submit();
+	}
+
+	function confirmChange(id,flag){
+		var msg = flag==1 ? 'Do you want disable this menu ?' : 'Do you want enable this menu ?';
+		if(confirm(msg)){
+			 window.location.href = '<c:url value="/menu/change-status/"/>'+id;
+		}
 	}
 
 	$(document).ready(function() {

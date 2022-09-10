@@ -29,7 +29,7 @@ public class ProductInStockController {
 	@RequestMapping("/product-in-stock/list/{page}")
 	public String productInStock(Model model, @PathVariable("page") int page, @ModelAttribute("searchForm") ProductInStock productInStock) {
 		LOGGER.info("Show list product in stock");
-		Paging paging = new Paging(3);
+		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		model.addAttribute("pageInfo", paging);
 		List<ProductInStock> listProductInStock = productInStockService.findAll(productInStock, paging);
