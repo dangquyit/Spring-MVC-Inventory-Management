@@ -97,12 +97,14 @@ public class MenuServiceImpl implements MenuService {
 			authDAO.update(auth);
 		} else {
 			if(permission == 1) {
+				auth = new Auth();
 				Role role = new Role();
 				role.setId(roleId);
 				Menu menu = new Menu();
 				menu.setId(menuId);
 				auth.setRole(role);
 				auth.setMenu(menu);
+				auth.setActiveFlag(1);
 				auth.setPermisstion(1);
 				auth.setCreateDate(new Timestamp(new Date().getTime()));
 				auth.setUpdateDate(new Timestamp(new Date().getTime()));

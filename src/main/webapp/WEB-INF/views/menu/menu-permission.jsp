@@ -19,10 +19,6 @@
 						<form:form modelAttribute="modelForm"
 							cssClass="form-horizontal form-label-left"
 							servletRelativeAction="/menu/update-permission" method="POST">
-							<form:hidden path="id" />
-							<form:hidden path="createDate" />
-							<form:hidden path="activeFlag" />
-							<form:hidden path="permission" />
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12"
 									for="roleId">Role <span class="required">*</span>
@@ -48,14 +44,14 @@
 								<div class="clearfix"></div>
 							</div>
 							<div class="form-group">
-								<label for="valuePermission"
+								<label for="permission"
 									class="control-label col-md-3 col-sm-3 col-xs-12">Permission
 									<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:radiobutton path="valuePermission" value="1" />
+									<form:radiobutton path="permission" value="1" />
 									Yes
-									<form:radiobutton path="valuePermission" value="0" />
+									<form:radiobutton path="permission" value="0" />
 									No
 								</div>
 								<div class="clearfix"></div>

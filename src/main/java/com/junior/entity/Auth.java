@@ -39,15 +39,6 @@ public class Auth implements Serializable {
 	@ManyToOne(fetch = FetchType.EAGER)
 	private Role role;
 
-	@Transient
-	private int roleId;
-
-	@Transient
-	private int menuId;
-	
-	@Transient
-	private int valuePermission;
-
 	public Auth() {
 	}
 
@@ -106,31 +97,5 @@ public class Auth implements Serializable {
 	public void setRole(Role role) {
 		this.role = role;
 	}
-
-	public int getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(int roleId) {
-		this.roleId = roleId;
-	}
-
-	public int getMenuId() {
-		return menuId;
-	}
-
-	public void setMenuId(int menuId) {
-		this.menuId = menuId;
-	}
-
-	public int getValuePermission() {
-		return valuePermission;
-	}
-
-	public void setValuePermission(int valuePermission) {
-		this.valuePermission = valuePermission;
-	}
-	
-	
 
 }

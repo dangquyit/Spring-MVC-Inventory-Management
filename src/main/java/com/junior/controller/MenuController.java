@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.junior.entity.Auth;
 import com.junior.entity.Menu;
 import com.junior.entity.Role;
+import com.junior.model.AuthForm;
 import com.junior.model.Paging;
 import com.junior.service.MenuService;
 import com.junior.service.RoleService;
@@ -97,15 +98,15 @@ public class MenuController {
 		}
 		model.addAttribute("mapRole", mapRole);
 		model.addAttribute("mapMenu", mapMenu);
-		model.addAttribute("modelForm", new Auth());
+		model.addAttribute("modelForm", new AuthForm());
 		model.addAttribute("titlePage", "Update Permission");
 		return "menu-permission";
 	}
 	
 	@RequestMapping("/menu/update-permission")
-	public String menuUpdatePermission(@ModelAttribute("modelForm") Auth auth, HttpSession session) {
+	public String menuUpdatePermission(@ModelAttribute("modelForm") AuthForm authForm, HttpSession session) {
 		try {
-			menuService.updatePermission(auth.getMenuId(), auth.getRoleId(), Integer.valueOf(auth.getValuePermission()));
+			menuService.updatePermission(authForm.getMenuId(), authForm.getRoleId(), authForm.getPermission());
 			session.setAttribute(Constant.MSG_SUCCESS, "Update permission success!!!");
 		} catch (Exception e) {
 			e.printStackTrace();
