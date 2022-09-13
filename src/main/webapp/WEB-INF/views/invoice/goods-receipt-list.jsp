@@ -70,7 +70,7 @@
 							<th class="column-title">Price</th>
 							<th class="column-title">Product</th>
 							<th class="column-title">Update date</th>
-							<th class="column-title no-link last text-center" colspan="3"><span
+							<th class="column-title no-link last text-center" colspan="2"><span
 								class="nobr">Action</span></th>
 						</tr>
 					</thead>
@@ -98,9 +98,6 @@
 							<td><a
 								href="<c:url value ="/goods-receipt/edit/${invoice.id}"/>"
 								class="btn btn-round btn-info">Edit</a></td>
-							<td><a href="javascript:void(0);"
-								onclick="confirmDelete(${invoice.id})"
-								class="btn btn-round btn-danger">Delete</a></td>
 							</tr>
 						</c:forEach>
 					</tbody>
@@ -111,12 +108,6 @@
 	</div>
 </div>
 <script type="text/javascript">
-	 function confirmDelete(id){
-		 if(confirm('Do you want delete this record?')){
-			 window.location.href = '<c:url value="/goods-receipt/delete/"/>'+id;
-		 }
-	 }
-
 	 function gotoPage(page) {
 		 console.log(page);
 		$('#searchForm').attr('action', '<c:url value="/goods-receipt/list/"/>' + page);

@@ -67,6 +67,7 @@ public class UserController {
 		Paging paging = new Paging(5);
 		paging.setIndexPage(page);
 		List<User> listUser = userService.findAll(user, paging);
+//		List<User> listUser = null;
 		if (session.getAttribute(Constant.MSG_SUCCESS) != null) {
 			model.addAttribute(Constant.MSG_SUCCESS, session.getAttribute(Constant.MSG_SUCCESS));
 			session.removeAttribute(Constant.MSG_SUCCESS);
@@ -83,7 +84,7 @@ public class UserController {
 
 	@GetMapping("/user/add")
 	public String add(Model model) {
-		model.addAttribute("titlePage", "Add Users");
+		model.addAttribute("titlePage", "Add User");
 		model.addAttribute("modelForm", new User());
 		List<Role> listRole = roleService.findAll(null, null);
 		Map<String, String> mapRole = new HashMap<>();
@@ -108,7 +109,7 @@ public class UserController {
 			UserRole userRole = (UserRole) user.getUserRoles().iterator().next();
 			user.setRoleId(userRole.getRole().getId());
 			model.addAttribute("mapRole", mapRole);
-			model.addAttribute("titlePage", "Edit Users");
+			model.addAttribute("titlePage", "Edit User");
 			model.addAttribute("modelForm", user);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("editMode", true);
@@ -138,14 +139,14 @@ public class UserController {
 	}
 
 	@PostMapping("/user/save")
-	public String save(Model model, @ModelAttribute("modelForm") @Validated User user, BindingResult result,
+	public String save(Model model, @ModelAttribute("modelForm") User user, BindingResult result,
 			HttpSession session) {
 		if (result.hasErrors()) {
 			if (user.getId() != 0) {
-				model.addAttribute("titlePage", "Edit Users");
+				model.addAttribute("titlePage", "Edit User");
 				model.addAttribute("editMode", true);
 			} else {
-				model.addAttribute("titlePage", "Add Users");
+				model.addAttribute("titlePage", "Add User");
 			}
 			List<Role> listRole = roleService.findAll(null, null);
 			Map<String, String> mapRole = new HashMap<>();
@@ -155,8 +156,8 @@ public class UserController {
 			model.addAttribute("mapRole", mapRole);
 			model.addAttribute("modelForm", user);
 			model.addAttribute("viewOnly", false);
+			System.out.println("Has erorr");
 			return "user-action";
-
 		}
 
 		if (user.getId() != 0) {
@@ -169,7 +170,8 @@ public class UserController {
 				session.setAttribute(Constant.MSG_ERROR, "Update has error");
 			}
 
-		} else {
+		}
+		else {
 			try {
 				userService.save(user);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success!!!");

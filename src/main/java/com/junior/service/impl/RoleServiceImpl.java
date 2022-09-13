@@ -21,7 +21,8 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<Role> findAll(Role role, Paging paging) {
-		return roleDAO.findAll(null, null, paging);
+		System.out.println("Find All role service");
+		return roleDAO.findAll(null, null, null);
 	}
 
 	@Override
@@ -31,7 +32,6 @@ public class RoleServiceImpl implements RoleService {
 
 	@Override
 	public List<Role> findByProperty(String property, Object value) {
-		// TODO Auto-generated method stub
 		return roleDAO.findByProperty(property, value);
 	}
 

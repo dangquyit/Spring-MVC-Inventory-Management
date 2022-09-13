@@ -11,39 +11,45 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.junior.dao.InvoiceDAO;
 import com.junior.dao.ProductInStockDAO;
 import com.junior.entity.Invoice;
 import com.junior.entity.ProductInStock;
 import com.junior.model.Paging;
 import com.junior.service.ProductInStockService;
+import com.junior.util.Constant;
 
 @Service
 @Transactional(rollbackFor = Exception.class)
 public class ProductInStockServiceImpl implements ProductInStockService {
 	@Autowired
 	ProductInStockDAO<ProductInStock> productInStockDAO;
+
+	@Autowired
+	InvoiceDAO<Invoice> invoiceDAO;
+
 	private final static Logger LOGGER = Logger.getLogger(ProductInStockServiceImpl.class);
 
 	@Override
 	public List<ProductInStock> findAll(ProductInStock productInStock, Paging paging) {
 		LOGGER.info("Find all product in stock");
-		StringBuilder queryStr = new StringBuilder();
+		StringBuilder queryStr = new StringBuilder(" AND model.quantity > 0");
 		Map<String, Object> mapParams = new HashMap<>();
 		if (productInStock != null && productInStock.getProductInfo() != null) {
 			if (!productInStock.getProductInfo().getCategory().getName().isEmpty()
 					&& productInStock.getProductInfo().getCategory().getName() != null) {
-				queryStr.append(" and model.productInfo.category.name LIKE :cateName");
+				queryStr.append(" AND model.productInfo.category.name LIKE :cateName");
 				mapParams.put("cateName", "%" + productInStock.getProductInfo().getCategory().getName() + "%");
 			}
 			if (productInStock.getProductInfo().getCode() != null
 					&& !productInStock.getProductInfo().getCode().isEmpty()) {
-				queryStr.append(" and model.productInfo.code = :code");
+				queryStr.append(" AND model.productInfo.code = :code");
 				mapParams.put("code", productInStock.getProductInfo().getCode());
 			}
 
 			if (productInStock.getProductInfo().getName() != null
 					&& !productInStock.getProductInfo().getName().isEmpty()) {
-				queryStr.append(" and model.productInfo.name LIKE :name");
+				queryStr.append(" AND model.productInfo.name LIKE :name");
 				mapParams.put("name", "%" + productInStock.getProductInfo().getName() + "%");
 			}
 		}
@@ -92,18 +98,22 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 				productInStock = listProductInStock.get(0);
 				LOGGER.info("Update product in stock quantity = " + invoice.getQuantity() + "price = "
 						+ invoice.getPrice());
-				if (invoice.getType() == 1) {
-					productInStock.setPrice(invoice.getPrice());
-					productInStock.setQuantity(productInStock.getQuantity() + invoice.getQuantity());
-				} else {
+				if (invoice.getType() == Constant.TYPE_GOODS_ISSUES) {
 					productInStock.setQuantity(productInStock.getQuantity() - invoice.getQuantity());
+				} else {
+					productInStock.setQuantity(productInStock.getQuantity() + invoice.getQuantity());
 				}
+
+				if (invoice.getType() == Constant.TYPE_GOODS_RECEIPT) {
+					productInStock.setPrice(invoice.getPrice());
+				}
+
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
 				productInStockDAO.update(productInStock);
 				return;
 			}
 
-			if (invoice.getType() == 1) {
+			if (invoice.getType() == Constant.TYPE_GOODS_RECEIPT) {
 				LOGGER.info("Insert product in stock in db");
 				productInStock = new ProductInStock();
 				productInStock.setUpdateDate(new Timestamp(new Date().getTime()));
@@ -117,7 +127,5 @@ public class ProductInStockServiceImpl implements ProductInStockService {
 				return;
 			}
 		}
-
 	}
-
 }

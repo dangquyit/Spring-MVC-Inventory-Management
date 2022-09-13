@@ -49,6 +49,7 @@ public class ProductInStock implements Serializable {
 	@JoinColumn(name="product_id")
 	private ProductInfo productInfo;
 
+	
 	public ProductInStock() {
 	}
 

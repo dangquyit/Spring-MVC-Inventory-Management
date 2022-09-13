@@ -10,12 +10,18 @@ import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
 
 import com.junior.entity.Invoice;
+import com.junior.entity.ProductInStock;
 import com.junior.service.InvoiceService;
+import com.junior.service.ProductInStockService;
+import com.junior.util.Constant;
 
 @Component
 public class InvoiceValidator implements Validator {
 	@Autowired
 	private InvoiceService invoiceService;
+
+	@Autowired
+	private ProductInStockService productInStockService;
 
 	@Override
 	public boolean supports(Class<?> clazz) {
@@ -28,6 +34,16 @@ public class InvoiceValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "code", "msg.required");
 		ValidationUtils.rejectIfEmpty(errors, "quantity", "msg.required");
 		ValidationUtils.rejectIfEmpty(errors, "price", "msg.required");
+		if (invoice.getType() == Constant.TYPE_GOODS_ISSUES) {
+			int originQuantityInProductInStock = productInStockService
+					.findByProperty("productInfo.id", invoice.getProductId()).iterator().next().getQuantity()
+					+ invoice.getQuantity()
+					+ invoiceService.findByProperty("code", invoice.getCode()).iterator().next().getQuantity();
+			System.out.println("Original quantity: " + originQuantityInProductInStock);
+			if (invoice.getQuantity() > originQuantityInProductInStock) {
+				errors.rejectValue("quantity", "msg.outofstock");
+			}
+		}
 		if (invoice.getCode() != null) {
 			List<Invoice> listInvoice = invoiceService.findByProperty("code", invoice.getCode());
 			if (listInvoice != null && !listInvoice.isEmpty()) {
@@ -43,7 +59,7 @@ public class InvoiceValidator implements Validator {
 		if (invoice.getQuantity() <= 0) {
 			errors.rejectValue("quantity", "msg.wrong.format");
 		}
-		
+
 		if (invoice.getPrice() == null || invoice.getPrice().compareTo(BigDecimal.ZERO) <= 0) {
 			errors.rejectValue("price", "msg.wrong.format");
 		}

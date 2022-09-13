@@ -74,7 +74,7 @@
 							<th class="column-title">Price</th>
 							<th class="column-title">Product</th>
 							<th class="column-title">Update date</th>
-							<th class="column-title no-link last text-center" colspan="3"><span
+							<th class="column-title no-link last text-center" colspan="2"><span
 								class="nobr">Action</span></th>
 						</tr>
 					</thead>
@@ -102,10 +102,6 @@
 							<td><a
 								href="<c:url value ="/goods-issue/edit/${invoice.id}"/>"
 								class="btn btn-round btn-info">Edit</a></td>
-							<td><a href="javascript:void(0);"
-								onclick="confirmDelete(${invoice.id})"
-								class="btn btn-round btn-danger">Delete</a></td>
-							</tr>
 						</c:forEach>
 					</tbody>
 				</table>
@@ -115,50 +111,49 @@
 	</div>
 </div>
 <script type="text/javascript">
-	 function confirmDelete(id){
-		 if(confirm('Do you want delete this record?')){
-			 window.location.href = '<c:url value="/goods-issue/delete/"/>'+id;
-		 }
-	 }
+	function confirmDelete(id) {
+		if (confirm('Do you want delete this record?')) {
+			window.location.href = '<c:url value="/goods-issue/delete/"/>' + id;
+		}
+	}
 
-	 function gotoPage(page) {
-		 console.log(page);
-		$('#searchForm').attr('action', '<c:url value="/goods-issue/list/"/>' + page);
+	function gotoPage(page) {
+		console.log(page);
+		$('#searchForm').attr('action',
+				'<c:url value="/goods-issue/list/"/>' + page);
 		$('#searchForm').submit();
-	 }
-	 
-	 $(document).ready(function(){
-		 processMessage();
-		 $('#fromDatePicker').datetimepicker({
-			 format : 'YYYY-MM-DD HH:mm:ss'
-		 });
-		 $('#toDatePicker').datetimepicker({
-			 format : 'YYYY-MM-DD HH:mm:ss'
-		 })
-		  $('.price-small').each(function(){
-			 $(this).text(numeral($(this).text()).format('0,0'));
-		 }) 
-	 });
-	 function processMessage(){
-		 var msgSuccess = '${msgSuccess}';
-		 var msgError = '${msgError}';
-		 if(msgSuccess){
-			 new PNotify({
-                 title: ' Success',
-                 text: msgSuccess,
-                 type: 'success',
-                 styling: 'bootstrap3'
-             });
-		 }
-		 if(msgError){
-			 new PNotify({
-                 title: ' Error',
-                 text: msgError,
-                 type: 'error',
-                 styling: 'bootstrap3'
-             });
-		 }
-	 }
-	
-	
+	}
+
+	$(document).ready(function() {
+		processMessage();
+		$('#fromDatePicker').datetimepicker({
+			format : 'YYYY-MM-DD HH:mm:ss'
+		});
+		$('#toDatePicker').datetimepicker({
+			format : 'YYYY-MM-DD HH:mm:ss'
+		})
+		$('.price-small').each(function() {
+			$(this).text(numeral($(this).text()).format('0,0'));
+		})
+	});
+	function processMessage() {
+		var msgSuccess = '${msgSuccess}';
+		var msgError = '${msgError}';
+		if (msgSuccess) {
+			new PNotify({
+				title : ' Success',
+				text : msgSuccess,
+				type : 'success',
+				styling : 'bootstrap3'
+			});
+		}
+		if (msgError) {
+			new PNotify({
+				title : ' Error',
+				text : msgError,
+				type : 'error',
+				styling : 'bootstrap3'
+			});
+		}
+	}
 </script>

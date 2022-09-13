@@ -90,10 +90,14 @@ public class InvoiceServiceImpl implements InvoiceService {
 	@Override
 	public void update(Invoice instance) throws Exception {
 		LOGGER.info("Update invoice from model to db");
+		ProductInfo productInfo = new ProductInfo();
+		productInfo.setId(instance.getProductId());
+		instance.setProductInfo(productInfo);
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
-		int originQuantity = invoiceDAO.findById(Invoice.class, instance.getId()).getQuantity();
+		int originQuantity = invoiceDAO.findByProperty("code", instance.getCode()).get(0).getQuantity();
 		Invoice invoice = new Invoice();
 		invoice.setQuantity(instance.getQuantity() - originQuantity);
+		invoice.setType(instance.getType());
 		invoice.setProductInfo(instance.getProductInfo());
 		invoice.setPrice(instance.getPrice());
 		invoiceDAO.update(instance);
@@ -103,8 +107,6 @@ public class InvoiceServiceImpl implements InvoiceService {
 
 	@Override
 	public void delete(Invoice instance) throws Exception {
-		// TODO Auto-generated method stub
-
 	}
 
 	private String dateToString(Date date) {

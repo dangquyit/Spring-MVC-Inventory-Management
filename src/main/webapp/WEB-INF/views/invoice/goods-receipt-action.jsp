@@ -21,6 +21,7 @@
 							servletRelativeAction="/goods-receipt/save" method="POST">
 							<form:hidden path="id" />
 							<form:hidden path="createDate" />
+							<form:hidden path="type" />
 							<form:hidden path="activeFlag" />
 							<div class="form-group">
 								<label class="control-label col-md-3 col-sm-3 col-xs-12"
@@ -42,9 +43,8 @@
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
 									<c:choose>
-										<c:when test="${!viewOnly}">
-
-											<form:select path="productId"
+										<c:when test="${!viewOnly && !viewProduct}">
+											<form:select disabled="${viewProduct }" path="productId"
 												cssClass="form-control col-md-7 col-xs-12">
 												<form:options items="${mapProduct}" />
 											</form:select>
@@ -53,6 +53,7 @@
 											</div>
 										</c:when>
 										<c:otherwise>
+											<form:hidden path="productId" />
 											<form:input path="productInfo.name" disabled="true"
 												cssClass="form-control col-md-7 col-xs-12" />
 										</c:otherwise>

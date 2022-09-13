@@ -21,36 +21,32 @@ public class UserRoleServiceImpl implements UserRoleService{
 
 	@Override
 	public List<UserRole> findAll() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public UserRole findById(int id) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public List<UserRole> findByProperty(String property, Object value) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public void save(UserRole instance) {
+		LOGGER.info("Save user role");
 		userRoleDAO.save(instance);
 	}
 
 	@Override
 	public void update(UserRole instance) {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public void delete(UserRole instance) {
-		// TODO Auto-generated method stub
 		
 	}
 

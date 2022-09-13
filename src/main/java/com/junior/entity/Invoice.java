@@ -49,6 +49,9 @@ public class Invoice implements Serializable {
 	
 	@Transient
 	private int productId;
+	
+	@Transient 
+	private int beforeQuantity;
 
 	public Invoice() {
 	}

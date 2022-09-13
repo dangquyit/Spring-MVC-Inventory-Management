@@ -29,27 +29,29 @@ public class BaseDAOImpl<E> implements BaseDAO<E> {
 		LOGGER.info("Find all record from db");
 		StringBuilder sql = new StringBuilder();
 		StringBuilder countSql = new StringBuilder();
-		countSql.append(" SELECT COUNT(*) FROM ").append(getGenericName()).append(" as model WHERE model.activeFlag = 1");
+		countSql.append(" SELECT COUNT(*) FROM ").append(getGenericName())
+				.append(" AS model WHERE model.activeFlag = 1");
 		sql.append(" FROM ").append(getGenericName()).append(" AS model WHERE model.activeFlag=1");
-		if(queryStr != null && !queryStr.isEmpty()) {
+		System.out.println("Generic name: "+getGenericName());
+		if (queryStr != null && !queryStr.isEmpty()) {
 			sql.append(queryStr);
 			countSql.append(queryStr);
 		}
 		Query<E> query = sessionFactory.getCurrentSession().createQuery(sql.toString());
 		Query<E> queryCount = sessionFactory.getCurrentSession().createQuery(countSql.toString());
-		if(mapParams!= null && !mapParams.isEmpty()) {
-			for(String key : mapParams.keySet()) {
+		if (mapParams != null && !mapParams.isEmpty()) {
+			for (String key : mapParams.keySet()) {
 				query.setParameter(key, mapParams.get(key));
 				queryCount.setParameter(key, mapParams.get(key));
 			}
 		}
-		if(paging != null) {
-			query.setFirstResult(paging.getOffset()); // same FROM model WHERE model.activeFlag = 1 limit 0, 10; 
+		if (paging != null) {
+			query.setFirstResult(paging.getOffset()); // same FROM model WHERE model.activeFlag = 1 limit 0, 10;
 			query.setMaxResults(paging.getRecordPerPage());
-			long totalRecords =(long) queryCount.uniqueResult();
+			long totalRecords = (long) queryCount.uniqueResult();
 			paging.setTotalRows(totalRecords);
 		}
-		return query.getResultList();
+		return query.list();
 	}
 
 	@Override

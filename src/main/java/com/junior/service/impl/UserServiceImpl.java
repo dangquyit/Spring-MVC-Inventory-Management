@@ -44,12 +44,13 @@ public class UserServiceImpl implements UserService {
 				queryString.append(" AND model.name LIKE :name");
 				mapParams.put("name", "%" + user.getName() + "%");
 			}
-			if(user.getEmail() != null && !user.getEmail().isEmpty()) {
+			if (user.getEmail() != null && !user.getEmail().isEmpty()) {
 				queryString.append(" AND model.email LIKE :email");
 				mapParams.put("email", "%" + user.getEmail() + "%");
 			}
 		}
 		return userDAO.findAll(queryString.toString(), mapParams, paging);
+//		return userDAO.findAll(null, null, null);
 	}
 
 	@Override
@@ -65,6 +66,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void save(User instance) {
+		LOGGER.info("Save info Service");
 		instance.setActiveFlag(1);
 		instance.setCreateDate(new Timestamp(new Date().getTime()));
 		instance.setUpdateDate(new Timestamp(new Date().getTime()));
@@ -83,7 +85,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void update(User instance) {
-		User user = userDAO.findById(User.class, instance.getId());
+		LOGGER.info("Update user Service");
+		User user = findById(instance.getId());
 		if (user != null) {
 			UserRole userRole = user.getUserRoles().iterator().next();
 			Role role = userRole.getRole();

@@ -83,8 +83,6 @@ public class MenuServiceImpl implements MenuService {
 		if(menu != null) {
 			menu.setActiveFlag(menu.getActiveFlag() == 1 ? 0 : 1);
 			update(menu);
-		} else {
-			
 		}
 	}
 	

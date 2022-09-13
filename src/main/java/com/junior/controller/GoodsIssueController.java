@@ -26,21 +26,21 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.junior.entity.Invoice;
-import com.junior.entity.ProductInfo;
-import com.junior.model.InvoiceExportReport;
+import com.junior.entity.ProductInStock;
 import com.junior.model.Paging;
 import com.junior.service.InvoiceService;
-import com.junior.service.ProductInfoService;
+import com.junior.service.ProductInStockService;
 import com.junior.util.Constant;
+import com.junior.util.InvoiceExportReport;
 import com.junior.validate.InvoiceValidator;
 
 @Controller
 public class GoodsIssueController {
 	@Autowired
 	private InvoiceService invoiceService;
-	
+
 	@Autowired
-	private ProductInfoService productInfoService;
+	ProductInStockService productInStockService;
 
 	@Autowired
 	private InvoiceValidator invoiceValidator;
@@ -89,9 +89,10 @@ public class GoodsIssueController {
 	@GetMapping("/goods-issue/add")
 	public String addInvoice(Model model) {
 		model.addAttribute("modelForm", new Invoice());
-		model.addAttribute("titlePage", "Add Invoice");
+		model.addAttribute("titlePage", "Add Good Issue");
 		model.addAttribute("viewOnly", false);
-		model.addAttribute("mapProduct", initMapProduct());
+		model.addAttribute("mapProduct", initMapProductInStock());
+		model.addAttribute("viewProduct", false);
 		return "goods-issue-action";
 	}
 
@@ -99,10 +100,12 @@ public class GoodsIssueController {
 	public String editInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
-			model.addAttribute("titlePage", "Edit Invoice");
+			invoice.setProductId(invoice.getProductInfo().getId());
+			model.addAttribute("titlePage", "Edit Good Issue");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
-			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("mapProduct", initMapProductInStock());
+			model.addAttribute("viewProduct", true);
 			return "goods-issue-action";
 		}
 		return "redirect:/goods-issue/list";
@@ -112,10 +115,11 @@ public class GoodsIssueController {
 	public String viewInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
-			model.addAttribute("titlePage", "View Invoice");
+			model.addAttribute("titlePage", "View Good Issue");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
-			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("mapProduct", initMapProductInStock());
+			model.addAttribute("viewProduct", true);
 			return "goods-issue-action";
 		}
 		return "redirect:/goods-issue/list";
@@ -126,18 +130,22 @@ public class GoodsIssueController {
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
 			if (invoice.getId() != 0) {
-				model.addAttribute("titlePage", "Edit Invoice");
+				model.addAttribute("titlePage", "Edit Good Issue");
+				model.addAttribute("viewProduct", true);
 			} else {
-				model.addAttribute("titlePage", "Add Invoice");
+				model.addAttribute("titlePage", "Add Good Issue");
+				model.addAttribute("viewProduct", false);
 			}
 			model.addAttribute("modelForm", invoice);
-			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("mapProduct", initMapProductInStock());
 			model.addAttribute("viewOnly", false);
 			return "goods-issue-action";
 		}
+		invoice.setType(Constant.TYPE_GOODS_ISSUES);
 		if (invoice.getId() != 0) {
 			LOGGER.info("Update invoice");
 			try {
+				System.out.println("Update invoice ne");
 				invoiceService.update(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Update success !!!");
 
@@ -145,11 +153,9 @@ public class GoodsIssueController {
 				session.setAttribute(Constant.MSG_ERROR, "Update has error !!!");
 				e.printStackTrace();
 			}
-//			model.addAttribute("message", "Update success !!!");
 		} else {
 			LOGGER.info("Save invoice");
 			try {
-				invoice.setType(Constant.TYPE_GOODS_ISSUES);
 				invoiceService.save(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success !!!");
 			} catch (Exception e) {
@@ -159,7 +165,7 @@ public class GoodsIssueController {
 		}
 		return "redirect:/goods-issue/list";
 	}
-	
+
 	@GetMapping("/goods-issue/export")
 	public ModelAndView export() {
 		ModelAndView modelAndView = new ModelAndView();
@@ -170,12 +176,13 @@ public class GoodsIssueController {
 		modelAndView.setView(new InvoiceExportReport());
 		return modelAndView;
 	}
-	
-	private Map<String, String> initMapProduct() {
-		List<ProductInfo> listProductInfo = productInfoService.findAll(null, null);
+
+	private Map<String, String> initMapProductInStock() {
+		List<ProductInStock> listProductInStockService = productInStockService.findAll(null, null);
 		Map<String, String> mapProduct = new HashMap<>();
-		for(ProductInfo productInfo : listProductInfo) {
-			mapProduct.put(String.valueOf(productInfo.getId()), productInfo.getName());
+		for (ProductInStock productInStock : listProductInStockService) {
+			mapProduct.put(String.valueOf(productInStock.getProductInfo().getId()),
+					productInStock.getProductInfo().getName());
 		}
 		return mapProduct;
 	}

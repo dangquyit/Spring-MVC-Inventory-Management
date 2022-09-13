@@ -27,11 +27,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.junior.entity.Invoice;
 import com.junior.entity.ProductInfo;
-import com.junior.model.InvoiceExportReport;
 import com.junior.model.Paging;
 import com.junior.service.InvoiceService;
 import com.junior.service.ProductInfoService;
 import com.junior.util.Constant;
+import com.junior.util.InvoiceExportReport;
 import com.junior.validate.InvoiceValidator;
 
 @Controller
@@ -83,6 +83,7 @@ public class GoodsReceiptController {
 			session.removeAttribute(Constant.MSG_ERROR);
 		}
 		model.addAttribute("listInvoice", listInvoice);
+		model.addAttribute("mapProduct", initMapProduct());
 		return "goods-receipt-list";
 	}
 
@@ -92,6 +93,7 @@ public class GoodsReceiptController {
 		model.addAttribute("titlePage", "Add Invoice");
 		model.addAttribute("viewOnly", false);
 		model.addAttribute("mapProduct", initMapProduct());
+		model.addAttribute("viewProduct", false);
 		return "goods-receipt-action";
 	}
 
@@ -99,10 +101,12 @@ public class GoodsReceiptController {
 	public String editInvoice(@PathVariable(name = "id", required = true) int id, Model model) {
 		Invoice invoice = invoiceService.findById(id);
 		if (invoice != null) {
-			model.addAttribute("titlePage", "Edit Invoice");
+			invoice.setProductId(invoice.getProductInfo().getId());
+			model.addAttribute("titlePage", "Edit Goods Receipt");
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", false);
 			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("viewProduct", true);
 			return "goods-receipt-action";
 		}
 		return "redirect:/goods-receipt/list";
@@ -116,6 +120,7 @@ public class GoodsReceiptController {
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("viewOnly", true);
 			model.addAttribute("mapProduct", initMapProduct());
+			model.addAttribute("viewProduct", true);
 			return "goods-receipt-action";
 		}
 		return "redirect:/goods-receipt/list";
@@ -126,15 +131,18 @@ public class GoodsReceiptController {
 			BindingResult bindingResult, HttpSession session) {
 		if (bindingResult.hasErrors()) {
 			if (invoice.getId() != 0) {
-				model.addAttribute("titlePage", "Edit Invoice");
+				model.addAttribute("titlePage", "Edit Goods Receipt");
+				model.addAttribute("viewProduct", true);
 			} else {
-				model.addAttribute("titlePage", "Add Invoice");
+				model.addAttribute("titlePage", "Add Goods Receipt");
+				model.addAttribute("viewProduct", false);
 			}
 			model.addAttribute("modelForm", invoice);
 			model.addAttribute("mapProduct", initMapProduct());
 			model.addAttribute("viewOnly", false);
 			return "goods-receipt-action";
 		}
+		invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 		if (invoice.getId() != 0) {
 			LOGGER.info("Update invoice");
 			try {
@@ -145,11 +153,9 @@ public class GoodsReceiptController {
 				session.setAttribute(Constant.MSG_ERROR, "Update has error !!!");
 				e.printStackTrace();
 			}
-//			model.addAttribute("message", "Update success !!!");
 		} else {
 			LOGGER.info("Save invoice");
 			try {
-				invoice.setType(Constant.TYPE_GOODS_RECEIPT);
 				invoiceService.save(invoice);
 				session.setAttribute(Constant.MSG_SUCCESS, "Insert success !!!");
 			} catch (Exception e) {

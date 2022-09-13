@@ -1,4 +1,4 @@
-package com.junior.model;
+package com.junior.util;
 
 import java.util.Date;
 import java.util.List;
@@ -13,15 +13,21 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.web.servlet.view.document.AbstractXlsxView;
 
 import com.junior.entity.Invoice;
-import com.junior.util.Constant;
-import com.junior.util.DateUtil;
 
 public class InvoiceExportReport extends AbstractXlsxView {
 
 	@Override
 	protected void buildExcelDocument(Map<String, Object> model, Workbook workbook, HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		response.setHeader("Content-Disposition", "attachment;filename=\"invoice-export-report.xlsx\"");
+
+		List<Invoice> listInvoice = (List<Invoice>) model.get(Constant.KEY_INVOICE_REPORT);
+		String fileName = "";
+		if (listInvoice.iterator().next().getType() == Constant.TYPE_GOODS_ISSUES) {
+			fileName = "danh-sach-xuat-hang.xlsx";
+		} else {
+			fileName = "danh-sach-nhap-hang.xlsx";
+		}
+		response.setHeader("Content-Disposition", "attachment;filename=" + fileName + "");
 		Sheet sheet = workbook.createSheet("data");
 		Row header = sheet.createRow(0);
 		header.createCell(0).setCellValue("#");
@@ -30,7 +36,6 @@ public class InvoiceExportReport extends AbstractXlsxView {
 		header.createCell(3).setCellValue("Price");
 		header.createCell(4).setCellValue("Product");
 		header.createCell(5).setCellValue("Update date");
-		List<Invoice> listInvoice = (List<Invoice>) model.get(Constant.KEY_INVOICE_REPORT);
 		for (int i = 0; i < listInvoice.size(); i++) {
 			Invoice invoice = listInvoice.get(i);
 			Row row = sheet.createRow(i + 1);
