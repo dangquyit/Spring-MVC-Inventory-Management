@@ -34,16 +34,6 @@ public class InvoiceValidator implements Validator {
 		ValidationUtils.rejectIfEmpty(errors, "code", "msg.required");
 		ValidationUtils.rejectIfEmpty(errors, "quantity", "msg.required");
 		ValidationUtils.rejectIfEmpty(errors, "price", "msg.required");
-		if (invoice.getType() == Constant.TYPE_GOODS_ISSUES) {
-			int originQuantityInProductInStock = productInStockService
-					.findByProperty("productInfo.id", invoice.getProductId()).iterator().next().getQuantity()
-					+ invoice.getQuantity()
-					+ invoiceService.findByProperty("code", invoice.getCode()).iterator().next().getQuantity();
-			System.out.println("Original quantity: " + originQuantityInProductInStock);
-			if (invoice.getQuantity() > originQuantityInProductInStock) {
-				errors.rejectValue("quantity", "msg.outofstock");
-			}
-		}
 		if (invoice.getCode() != null) {
 			List<Invoice> listInvoice = invoiceService.findByProperty("code", invoice.getCode());
 			if (listInvoice != null && !listInvoice.isEmpty()) {

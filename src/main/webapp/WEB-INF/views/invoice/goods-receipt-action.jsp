@@ -67,7 +67,7 @@
 									<span class="required">*</span>
 								</label>
 								<div class="col-md-6 col-sm-6 col-xs-12">
-									<form:input path="quantity"
+									<form:input path="quantity" type="number"
 										cssClass="form-control col-md-7 col-xs-12"
 										disabled="${viewOnly}" />
 									<div class="has-error">

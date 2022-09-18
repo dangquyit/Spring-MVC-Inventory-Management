@@ -85,17 +85,22 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public void update(User instance) {
-		LOGGER.info("Update user Service");
-		User user = findById(instance.getId());
+		LOGGER.info("Update user Service UserID = " + instance.getId());
+		User user = userDAO.findById(User.class, instance.getId());
+		
 		if (user != null) {
 			UserRole userRole = user.getUserRoles().iterator().next();
-			Role role = userRole.getRole();
+			Role role = new Role();
 			role.setId(instance.getRoleId());
 			userRole.setRole(role);
 			userRole.setUpdateDate(new Timestamp(new Date().getTime()));
+			user.setEmail(instance.getEmail());
+			user.setName(instance.getName());
+			user.setUserName(instance.getUserName());
+			user.setUpdateDate(new Timestamp(new Date().getTime()));
 			userRoleDAO.update(userRole);
 		}
-		userDAO.update(instance);
+		userDAO.update(user);
 	}
 
 	@Override
