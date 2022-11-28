@@ -4,7 +4,7 @@ https://dbdiagram.io/d/63270ca20911f91ba5d73c7d
 # Công nghệ
 - Spring MVC, MySQL, JSP, JQuery, Hibernate, Tomcat
 # Chức năng
-- Thêm, sửa, xóa, tìm kiếm, sắp xếp, ...
+- Thêm, sửa, xóa, tìm kiếm, sắp xếp, phân quyền...
 
 # Cách chạy dự án
 - B1: cài đặt intellij, mysql, tomcat
